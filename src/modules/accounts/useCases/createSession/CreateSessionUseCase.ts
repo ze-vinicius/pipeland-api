@@ -2,6 +2,7 @@ import { compare } from "bcrypt";
 import { sign } from "jsonwebtoken";
 import { inject, injectable } from "tsyringe";
 
+import authConfig from "../../../../config/auth";
 import { User } from "../../entities/User";
 import { IUsersRepository } from "../../repositories/IUsersRepository";
 
@@ -35,7 +36,7 @@ class CreateSessionUseCase {
       throw new Error("Email or password incorrect");
     }
 
-    const token = sign({}, "251a67457da512d154ad272658065875", {
+    const token = sign({}, authConfig.secretKey, {
       subject: user.id,
       expiresIn: "1d",
     });
