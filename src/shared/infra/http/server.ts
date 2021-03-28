@@ -1,9 +1,9 @@
 import { NextFunction, Request, Response } from "express";
 import "express-async-errors";
 
+import { AppError } from "../../errors/AppError";
 import { app } from "./app";
-import { AppError } from "./errors/AppError";
-import { router } from "./infra/http/routes";
+import { router } from "./routes";
 
 const PORT = 3333;
 
@@ -16,6 +16,8 @@ app.use(
         .status(err.statusCode)
         .json({ status: "error", message: err.message });
     }
+
+    console.log(err.message);
 
     return response.status(500).json({
       status: "error",

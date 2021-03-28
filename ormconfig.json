@@ -6,7 +6,7 @@
     "host": "localhost",
     "username": "docker",
     "password": "pass",
-    "database": "tcc",
+    "database": "tcc_database",
     "migrations": [
       "./src/shared/infra/database/migrations/*.ts"
     ],
