@@ -111,6 +111,8 @@ interface Class {
 - Só deve ser possível registrar presença de alunos em datas passadas.
 - Só deve ser possível registrar presença em uma turm "ativa".
 
+---
+
 ## Visualizar ranking de alunos
 
 ### **RF** - Requisitos Funcionais
