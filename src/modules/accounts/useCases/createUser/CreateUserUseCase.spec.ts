@@ -1,17 +1,17 @@
-import { FakeUsersRepository } from "@modules/accounts/repositories/fakes/FakeUsersRepository";
+import { UsersRepositoryInMemory } from "@modules/accounts/repositories/in-memory/UsersRepositoryInMemory";
 import { IUsersRepository } from "@modules/accounts/repositories/IUsersRepository";
 
 import { AppError } from "@shared/errors/AppError";
 
 import { CreateUserUseCase } from "./CreateUserUseCase";
 
-let fakeUsersRepository: IUsersRepository;
+let usersRepositoryInMemory: IUsersRepository;
 let createUserUseCase: CreateUserUseCase;
 
 describe("CreateUserUseCase", () => {
   beforeEach(() => {
-    fakeUsersRepository = new FakeUsersRepository();
-    createUserUseCase = new CreateUserUseCase(fakeUsersRepository);
+    usersRepositoryInMemory = new UsersRepositoryInMemory();
+    createUserUseCase = new CreateUserUseCase(usersRepositoryInMemory);
   });
 
   it("should be able to create a new user", async () => {

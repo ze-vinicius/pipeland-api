@@ -22,7 +22,7 @@ export class User {
   password: string;
 
   @Column()
-  role: string;
+  role: "TEACHER" | "STUDENT";
 
   @CreateDateColumn()
   created_at: Date;
