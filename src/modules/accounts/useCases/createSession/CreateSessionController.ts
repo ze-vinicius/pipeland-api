@@ -14,7 +14,7 @@ class CreateSessionController {
       password,
     });
 
-    delete user.password;
+    user.password = "";
 
     return response.json({
       user,

@@ -3,7 +3,7 @@
     "target": "es5",
     "module": "commonjs",
     "outDir": "./dist",
-    "rootDir": "./src",
+    "rootDir": ".",
     "strict": true,
     "strictPropertyInitialization": false,
     "baseUrl": "./src",
@@ -17,6 +17,9 @@
       ],
       "@shared/*": [
         "shared/*"
+      ],
+      "@utils/*": [
+        "utils/*"
       ]
     },
     "esModuleInterop": true,
@@ -25,5 +28,7 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["src"]
+  "include": [
+    "src"
+  ]
 }
