@@ -1,20 +1,19 @@
-import { FakeUsersRepository } from "@modules/accounts/repositories/fakes/FakeUsersRepository";
+import { UsersRepositoryInMemory } from "@modules/accounts/repositories/in-memory/UsersRepositoryInMemory";
 import { IUsersRepository } from "@modules/accounts/repositories/IUsersRepository";
-
 import { AppError } from "@shared/errors/AppError";
 
 import { CreateUserUseCase } from "../createUser/CreateUserUseCase";
 import { CreateSessionUseCase } from "./CreateSessionUseCase";
 
-let fakeUsersRepository: IUsersRepository;
+let usersRepositoryInMemory: IUsersRepository;
 let createSessionUseCase: CreateSessionUseCase;
 let createUserUseCase: CreateUserUseCase;
 
 describe("CreateSessionUseCase", () => {
   beforeEach(() => {
-    fakeUsersRepository = new FakeUsersRepository();
-    createUserUseCase = new CreateUserUseCase(fakeUsersRepository);
-    createSessionUseCase = new CreateSessionUseCase(fakeUsersRepository);
+    usersRepositoryInMemory = new UsersRepositoryInMemory();
+    createUserUseCase = new CreateUserUseCase(usersRepositoryInMemory);
+    createSessionUseCase = new CreateSessionUseCase(usersRepositoryInMemory);
   });
 
   it("should be able to authenticate an user", async () => {

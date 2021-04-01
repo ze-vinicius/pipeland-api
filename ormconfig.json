@@ -7,6 +7,9 @@
     "username": "docker",
     "password": "pass",
     "database": "tcc_database",
+    "entities": [
+      "./src/modules/**/entities/*.ts"
+    ],
     "migrations": [
       "./src/shared/infra/database/migrations/*.ts"
     ],
