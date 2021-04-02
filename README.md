@@ -61,9 +61,14 @@ interface Class {
 
 - Deve ser possível cadastrar uma nova turma.
 
+### **RNF** - Requisitos Não Funcionais
+
+- A nova turma cadastrada terá o campo "active" como TRUE por padrão.
+
 ### **RN** - Regras de Negócio
 
 - Só deve ser possível cadastrar uma nova turma se o usuário for do tipo "TEACHER".
+- O professor pode ter mais de uma turma ao mesmo tempo.
 
 ---
 

@@ -16,5 +16,20 @@
     "cli": {
       "migrationsDir": "./src/shared/infra/database/migrations"
     }
+  },
+  {
+    "name": "seed",
+    "type": "postgres",
+    "port": 5432,
+    "host": "localhost",
+    "username": "docker",
+    "password": "pass",
+    "database": "tcc_database",
+    "migrations": [
+      "./src/shared/infra/database/seeds/*.ts"
+    ],
+    "cli": {
+      "migrationsDir": "./src/shared/infra/database/seeds"
+    }
   }
 ]

@@ -5,7 +5,7 @@ import {
   PrimaryColumn,
   UpdateDateColumn,
 } from "typeorm";
-import { v4 as uuidV4 } from "uuid";
+import { v4 } from "uuid";
 
 @Entity("users")
 export class User {
@@ -32,7 +32,7 @@ export class User {
 
   constructor() {
     if (!this.id) {
-      this.id = uuidV4();
+      this.id = v4();
     }
   }
 }
