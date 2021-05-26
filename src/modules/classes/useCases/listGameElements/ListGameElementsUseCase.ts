@@ -23,18 +23,23 @@ class ListGameElementsUseCase {
     const gameElements = [
       {
         name: "red-mushroom",
-        imageUrl: `${baseURL}/files/red-mushroom.png`,
+        imageUrl: `${baseURL}/files/game-assets/icons/red-mushroom.png`,
         value: 7,
       },
       {
         name: "coin",
-        imageUrl: `${baseURL}/files/coin.png`,
+        imageUrl: `${baseURL}/files/game-assets/icons/coin.png`,
         value: 7,
       },
       {
         name: "mushroom-up",
-        imageUrl: `${baseURL}/files/mushroom-up.png`,
+        imageUrl: `${baseURL}/files/game-assets/icons/mushroom-up.png`,
         value: 7,
+      },
+      {
+        name: "cherry",
+        imageUrl: `${baseURL}/files/game-assets/icons/cherry.png`,
+        value: 0.5,
       },
     ];
 
