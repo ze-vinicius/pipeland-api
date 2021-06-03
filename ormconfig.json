@@ -11,10 +11,10 @@
       "./src/modules/**/entities/*.ts"
     ],
     "migrations": [
-      "./src/shared/infra/database/migrations/*.ts"
+      "./src/shared/infra/typeorm/migrations/*.ts"
     ],
     "cli": {
-      "migrationsDir": "./src/shared/infra/database/migrations"
+      "migrationsDir": "./src/shared/infra/typeorm/migrations"
     }
   },
   {
@@ -26,10 +26,10 @@
     "password": "pass",
     "database": "tcc_database",
     "migrations": [
-      "./src/shared/infra/database/seeds/*.ts"
+      "./src/shared/infra/typeorm/seeds/*.ts"
     ],
     "cli": {
-      "migrationsDir": "./src/shared/infra/database/seeds"
+      "migrationsDir": "./src/shared/infra/typeorm/seeds"
     }
   }
 ]
