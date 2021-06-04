@@ -1,4 +1,4 @@
-import { inject } from "tsyringe";
+import { inject, injectable } from "tsyringe";
 
 import { IUsersRepository } from "@modules/accounts/repositories/IUsersRepository";
 import { IClassesRepository } from "@modules/classes/repositories/IClassesRepository";
@@ -28,7 +28,7 @@ type IResponse = {
   coinsMax: number;
   studentInfo?: IStudentInfo | undefined;
 };
-
+@injectable()
 class FindClassInfoUseCase {
   constructor(
     @inject("UsersRepository")

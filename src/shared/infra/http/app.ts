@@ -10,6 +10,8 @@ import "../../container";
 createConnection();
 const app = express();
 
+app.use(express.json());
+
 app.use("/files", express.static(uploadConfig.directory));
 
 export { app };

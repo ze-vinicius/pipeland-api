@@ -22,6 +22,7 @@ class ClassesRepository implements IClassesRepository {
 
   async findById(class_id: string): Promise<Class | undefined> {
     const findClass = await this.ormRepository.findOne({
+      relations: ["teacher"],
       where: { id: class_id },
     });
 
@@ -30,6 +31,7 @@ class ClassesRepository implements IClassesRepository {
 
   async findAllByTeacherId(teacher_id: string): Promise<Class[]> {
     const findClasses = await this.ormRepository.find({
+      relations: ["teacher"],
       where: {
         teacher_id,
       },

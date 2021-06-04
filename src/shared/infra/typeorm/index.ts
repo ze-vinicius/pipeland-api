@@ -12,8 +12,8 @@ export default async (
       host,
       database:
         process.env.NODE_ENV === "test"
-          ? "tcc_database_tests"
-          : defaultOptions.database,
+          ? "pipeland_tests"
+          : (defaultOptions.database as string),
     })
   );
 };

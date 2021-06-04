@@ -1,4 +1,4 @@
-import { inject } from "tsyringe";
+import { inject, injectable } from "tsyringe";
 
 import { IUsersRepository } from "@modules/accounts/repositories/IUsersRepository";
 import { IClassesRepository } from "@modules/classes/repositories/IClassesRepository";
@@ -17,6 +17,7 @@ type IResponse = Array<{
   teacher_name: string;
 }>;
 
+@injectable()
 class ListUserClassesUseCase {
   constructor(
     @inject("UsersRepository")

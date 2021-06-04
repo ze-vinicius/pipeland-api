@@ -1,4 +1,4 @@
-import { inject } from "tsyringe";
+import { inject, injectable } from "tsyringe";
 
 import { Student } from "@modules/classes/infra/typeorm/entities/Student";
 import { IClassesRepository } from "@modules/classes/repositories/IClassesRepository";
@@ -14,7 +14,7 @@ interface IRequest {
   teacher_id: string;
   students: ICreateStudent[];
 }
-
+@injectable()
 class AddStudentsToClassUseCase {
   constructor(
     @inject("StudentsRepository")
@@ -28,13 +28,13 @@ class AddStudentsToClassUseCase {
     teacher_id,
     students,
   }: IRequest): Promise<Student[]> {
-    const findClass = await this.classesRepository.findByIdAndTeacherId({
-      class_id,
-      teacher_id,
-    });
+    const findClass = await this.classesRepository.findById(class_id);
 
     if (!findClass) {
       throw new AppError("A class with this teacher was not found");
+    }
+    if (findClass.teacher_id !== teacher_id) {
+      throw new AppError("You are not authorized", 501);
     }
 
     const formatStudents = students.map((student) => ({

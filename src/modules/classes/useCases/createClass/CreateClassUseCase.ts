@@ -1,4 +1,4 @@
-import { inject } from "tsyringe";
+import { inject, injectable } from "tsyringe";
 
 import { Class } from "@modules/classes/infra/typeorm/entities/Class";
 import { IClassesRepository } from "@modules/classes/repositories/IClassesRepository";
@@ -7,7 +7,7 @@ interface IRequest {
   name: string;
   teacher_id: string;
 }
-
+@injectable()
 class CreateClassUseCase {
   constructor(
     @inject("ClassesRepository")

@@ -25,6 +25,7 @@ class StudentsRepository implements IStudentsRepository {
     user_id,
   }: IFindStudentsByIdAndClassIdDTO): Promise<Student | undefined> {
     const findStudent = await this.ormRepository.findOne({
+      relations: ["class", "class.teacher", "user"],
       where: {
         user_id,
         class_id,
@@ -44,6 +45,7 @@ class StudentsRepository implements IStudentsRepository {
 
   async findAllByUserId(user_id: string): Promise<Student[]> {
     const findStudents = await this.ormRepository.find({
+      relations: ["class", "class.teacher", "user"],
       where: {
         user_id,
       },

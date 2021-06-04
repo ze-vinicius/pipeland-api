@@ -6,7 +6,7 @@
     "host": "localhost",
     "username": "docker",
     "password": "pass",
-    "database": "tcc_database",
+    "database": "pipeland",
     "entities": [
       "./src/modules/**/entities/*.ts"
     ],
@@ -24,7 +24,7 @@
     "host": "localhost",
     "username": "docker",
     "password": "pass",
-    "database": "tcc_database",
+    "database": "pipeland",
     "migrations": [
       "./src/shared/infra/typeorm/seeds/*.ts"
     ],
