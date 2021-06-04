@@ -27,6 +27,9 @@ class Student {
   @Column()
   class_id: string;
 
+  @Column()
+  photo: string;
+
   @JoinColumn({ name: "user_id" })
   @ManyToOne(() => User)
   user: User;

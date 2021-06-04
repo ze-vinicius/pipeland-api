@@ -19,6 +19,24 @@ class ClassesRepository implements IClassesRepository {
 
     return createdClass;
   }
+
+  async findById(class_id: string): Promise<Class | undefined> {
+    const findClass = await this.ormRepository.findOne({
+      where: { id: class_id },
+    });
+
+    return findClass;
+  }
+
+  async findAllByTeacherId(teacher_id: string): Promise<Class[]> {
+    const findClasses = await this.ormRepository.find({
+      where: {
+        teacher_id,
+      },
+    });
+
+    return findClasses;
+  }
 }
 
 export { ClassesRepository };

@@ -1,8 +1,8 @@
 import request from "supertest";
 import { Connection, getConnection } from "typeorm";
 
-import createConnection from "../src/shared/infra/database";
 import { app } from "../src/shared/infra/http/app";
+import createConnection from "../src/shared/infra/typeorm";
 
 let connection: Connection;
 

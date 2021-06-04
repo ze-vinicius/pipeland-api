@@ -1,8 +1,11 @@
+import { Class } from "../infra/typeorm/entities/Class";
+
 interface ICreateStudentDTO {
-  nickname?: string;
-  class_id: string;
   user_id: string;
-  avatar_url?: string;
+  nickname?: string;
+  photo?: string;
+  class_id?: string;
+  class?: Class;
 }
 
 export { ICreateStudentDTO };

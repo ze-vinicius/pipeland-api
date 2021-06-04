@@ -39,7 +39,7 @@ class AddStudentsToClassUseCase {
 
     const formatStudents = students.map((student) => ({
       ...student,
-      class_id: findClass.id,
+      class: findClass,
     }));
 
     const newStudents = await this.studentsRepository.bulkCreate(

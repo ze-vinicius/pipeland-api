@@ -29,7 +29,7 @@ export default class CreateTableStudents1622755667140
             isNullable: true,
           },
           {
-            name: "avatar_url",
+            name: "photo",
             type: "varchar",
             isNullable: true,
           },
