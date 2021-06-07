@@ -1,3 +1,4 @@
+import { parseISO } from "date-fns";
 import { inject, injectable } from "tsyringe";
 
 import { Task } from "@modules/classes/infra/typeorm/entities/Task";
@@ -41,8 +42,10 @@ class CreateTaskUseCase {
       throw new AppError("Class was not found");
     }
 
+    const formatedDeliveryDate = parseISO(delivery_date);
+
     const createdTask = await this.tasksRepository.create({
-      delivery_date,
+      delivery_date: formatedDeliveryDate,
       description,
       title,
       class_id,

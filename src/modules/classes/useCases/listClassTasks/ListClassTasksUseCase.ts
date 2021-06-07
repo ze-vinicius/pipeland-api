@@ -30,9 +30,10 @@ class ListClassTasksUseCase {
 
   public async execute({ class_id }: IRequest): Promise<IResponse> {
     const findTasks = await this.tasksRepository.findAllByClassId(class_id);
-    let task_value = 0;
 
     const formatTasks = findTasks.map((task) => {
+      let task_value = 0;
+
       const formatedTaskElements = task.task_elements.map((task_element) => {
         task_value +=
           task_element.game_element.type === "REWARD"
