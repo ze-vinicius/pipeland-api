@@ -15,8 +15,8 @@ interface IStudentInfo {
   user_id: string;
   photo?: string;
   nickname?: string;
-  currentCoinsQty: number;
-  currentAvatar: string;
+  current_coins_qty: number;
+  current_avatar: string;
 }
 
 type IResponse = {
@@ -25,8 +25,8 @@ type IResponse = {
   active: boolean;
   create_date: Date;
   teacher_name: string;
-  coinsMax: number;
-  studentInfo?: IStudentInfo | undefined;
+  coins_max: number;
+  student_info?: IStudentInfo | undefined;
 };
 @injectable()
 class FindClassInfoUseCase {
@@ -64,14 +64,16 @@ class FindClassInfoUseCase {
         active: findStudent.class.active,
         create_date: findStudent.class.created_at,
         teacher_name: findStudent.class.teacher.name,
-        coinsMax: 210,
-        studentInfo: {
+        coins_max: 210,
+        student_info: {
           student_id: findStudent.id,
+          student_name: findStudent.user.name,
           user_id: findStudent.user_id,
           photo: findStudent.photo,
           nickname: findStudent.nickname,
-          currentCoinsQty: 0,
-          currentAvatar: "mario",
+          current_coins_qty: 120,
+          current_avatar: "superMario",
+          current_mushroom_ups_qty: 2,
         },
       });
     } else if (findUser.role === "TEACHER") {
@@ -90,7 +92,7 @@ class FindClassInfoUseCase {
         active: findClass.active,
         create_date: findClass.created_at,
         teacher_name: findClass.teacher.name,
-        coinsMax: 210,
+        coins_max: 210,
       });
     }
 
