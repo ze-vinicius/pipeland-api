@@ -1,4 +1,5 @@
 import {
+  AfterLoad,
   Column,
   CreateDateColumn,
   Entity,
@@ -37,6 +38,13 @@ class GameElement {
     if (!this.id) {
       this.id = v4();
     }
+  }
+
+  imageUrl: string;
+
+  @AfterLoad()
+  setComputed(): void {
+    this.imageUrl = `${process.env.BASE_URL}/files/game-assets/icons/${this.image}`;
   }
 }
 

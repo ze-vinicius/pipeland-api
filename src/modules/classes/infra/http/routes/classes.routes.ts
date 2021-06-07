@@ -2,7 +2,9 @@ import { Router } from "express";
 
 import { AddStudentsToClassController } from "@modules/classes/useCases/addStudentsToClass/AddStudentsToClassController";
 import { CreateClassController } from "@modules/classes/useCases/createClass/CreateClassController";
+import { CreateTaskController } from "@modules/classes/useCases/createTaskUseCase/CreateTaskController";
 import { FindClassInfoController } from "@modules/classes/useCases/findClassInfo/FindClassInfoController";
+import { ListClassTasksController } from "@modules/classes/useCases/listClassTasks/ListClassTasksController";
 import { ListGameElementsController } from "@modules/classes/useCases/listGameElements/ListGameElementsController";
 import { ListUserClassesController } from "@modules/classes/useCases/listUserClasses/ListUserClassesController";
 import { ensureAuthenticated } from "@shared/infra/http/middlewares/ensureAuthenticated";
@@ -15,6 +17,8 @@ const createClassController = new CreateClassController();
 const listUserClasses = new ListUserClassesController();
 const findClassInfoController = new FindClassInfoController();
 const addStudentsToClassController = new AddStudentsToClassController();
+const createTaskController = new CreateTaskController();
+const listClassTasksController = new ListClassTasksController();
 const listGameElementsController = new ListGameElementsController();
 
 // ROUTES
@@ -46,6 +50,20 @@ classesRouter.post(
   ensureAuthenticated,
   ensureAuthorizated("TEACHER"),
   addStudentsToClassController.handle
+);
+
+classesRouter.post(
+  "/:id/tasks",
+  ensureAuthenticated,
+  ensureAuthorizated("TEACHER"),
+  createTaskController.handle
+);
+
+classesRouter.get(
+  "/:id/tasks",
+  ensureAuthenticated,
+  ensureAuthorizated("TEACHER", "STUDENT"),
+  listClassTasksController.handle
 );
 
 export { classesRouter };

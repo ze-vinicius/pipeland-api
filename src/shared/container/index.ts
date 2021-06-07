@@ -5,9 +5,13 @@ import { IUsersRepository } from "@modules/accounts/repositories/IUsersRepositor
 import { ClassesRepository } from "@modules/classes/infra/typeorm/repositories/ClassesRepository";
 import { GameElementsRepository } from "@modules/classes/infra/typeorm/repositories/GameElementsRepository";
 import { StudentsRepository } from "@modules/classes/infra/typeorm/repositories/StudentsRepository";
+import { TasksElementsRepository } from "@modules/classes/infra/typeorm/repositories/TasksElementsRepository";
+import { TasksRepository } from "@modules/classes/infra/typeorm/repositories/TasksRepository";
 import { IClassesRepository } from "@modules/classes/repositories/IClassesRepository";
 import { IGameElementsRepository } from "@modules/classes/repositories/IGameElementsRepository";
 import { IStudentsRepository } from "@modules/classes/repositories/IStudentsRepository";
+import { ITasksElementsRepository } from "@modules/classes/repositories/ITasksElementsRepository";
+import { ITasksRepository } from "@modules/classes/repositories/ITasksRepository";
 
 container.registerSingleton<IUsersRepository>(
   "UsersRepository",
@@ -27,4 +31,14 @@ container.registerSingleton<IStudentsRepository>(
 container.registerSingleton<IGameElementsRepository>(
   "GameElementsRepository",
   GameElementsRepository
+);
+
+container.registerSingleton<ITasksRepository>(
+  "TasksRepository",
+  TasksRepository
+);
+
+container.registerSingleton<ITasksElementsRepository>(
+  "TasksElementsRepository",
+  TasksElementsRepository
 );

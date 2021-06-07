@@ -13,11 +13,11 @@ class ClassesRepository implements IClassesRepository {
   }
 
   async create(data: ICreateClassDTO): Promise<Class> {
-    const createdClass = this.ormRepository.create(data);
+    const newClass = this.ormRepository.create(data);
 
-    await this.ormRepository.save(createdClass);
+    await this.ormRepository.save(newClass);
 
-    return createdClass;
+    return newClass;
   }
 
   async findById(class_id: string): Promise<Class | undefined> {
