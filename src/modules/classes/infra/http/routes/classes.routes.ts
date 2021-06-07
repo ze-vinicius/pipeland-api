@@ -32,6 +32,8 @@ classesRouter.get(
   listUserClasses.handle
 );
 
+classesRouter.get("/game-elements", listGameElementsController.handle);
+
 classesRouter.get(
   "/:id",
   ensureAuthenticated,
@@ -45,7 +47,5 @@ classesRouter.post(
   ensureAuthorizated("TEACHER"),
   addStudentsToClassController.handle
 );
-
-classesRouter.get("/game-elements", listGameElementsController.handle);
 
 export { classesRouter };

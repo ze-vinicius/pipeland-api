@@ -80,7 +80,7 @@ class FindClassInfoUseCase {
       const findClass = await this.classesRepository.findById(class_id);
 
       if (!findClass) {
-        throw new AppError("Clas was not found");
+        throw new AppError("Class was not found");
       }
 
       if (findClass.teacher_id !== user_id) {
