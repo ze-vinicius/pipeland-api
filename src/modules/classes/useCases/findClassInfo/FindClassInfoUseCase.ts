@@ -71,9 +71,9 @@ class FindClassInfoUseCase {
           user_id: findStudent.user_id,
           photo: findStudent.photo,
           nickname: findStudent.nickname,
-          current_coins_qty: 120,
-          current_avatar: "superMario",
-          current_mushroom_ups_qty: 2,
+          current_coins_qty: 0,
+          current_avatar: "mario",
+          current_mushroom_ups_qty: 0,
         },
       });
     } else if (findUser.role === "TEACHER") {

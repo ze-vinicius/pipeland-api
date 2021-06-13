@@ -40,7 +40,7 @@ class CreateSessionUseCase {
 
     const token = sign({}, authConfig.secretKey, {
       subject: user.id,
-      expiresIn: "1d",
+      expiresIn: authConfig.expiresIn,
     });
 
     return {

@@ -36,6 +36,24 @@ class TasksRepository implements ITasksRepository {
 
     return findTasks;
   }
+
+  async findByClassIdAndTaskId({
+    class_id,
+    task_id,
+  }: {
+    class_id: string;
+    task_id: string;
+  }): Promise<Task | undefined> {
+    const findTask = await this.ormRepository.findOne({
+      where: {
+        class_id,
+        id: task_id,
+      },
+      relations: ["task_elements", "task_elements.game_element"],
+    });
+
+    return findTask;
+  }
 }
 
 export { TasksRepository };
