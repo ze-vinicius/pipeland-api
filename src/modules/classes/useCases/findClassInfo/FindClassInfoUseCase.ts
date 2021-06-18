@@ -1,6 +1,7 @@
 import { inject, injectable } from "tsyringe";
 
 import { IUsersRepository } from "@modules/accounts/repositories/IUsersRepository";
+import { IClassesInviteTokensRepository } from "@modules/classes/repositories/IClassesInviteTokensRepository";
 import { IClassesRepository } from "@modules/classes/repositories/IClassesRepository";
 import { IStudentsRepository } from "@modules/classes/repositories/IStudentsRepository";
 import { AppError } from "@shared/errors/AppError";
@@ -26,6 +27,7 @@ type IResponse = {
   create_date: Date;
   teacher_name: string;
   coins_max: number;
+  invite_token: string;
   student_info?: IStudentInfo | undefined;
 };
 @injectable()
@@ -36,7 +38,9 @@ class FindClassInfoUseCase {
     @inject("ClassesRepository")
     private classesRepository: IClassesRepository,
     @inject("StudentsRepository")
-    private studentsRepository: IStudentsRepository
+    private studentsRepository: IStudentsRepository,
+    @inject("ClassesInviteTokensRepository")
+    private classesInviteTokensRepository: IClassesInviteTokensRepository
   ) {}
 
   public async execute({ user_id, class_id }: IRequest): Promise<IResponse> {
@@ -47,6 +51,16 @@ class FindClassInfoUseCase {
     }
 
     const formatClass: IResponse = {} as IResponse;
+
+    let invite_token = await this.classesInviteTokensRepository.findByClassId(
+      class_id
+    );
+
+    if (!invite_token) {
+      invite_token = await this.classesInviteTokensRepository.generate(
+        class_id
+      );
+    }
 
     if (findUser.role === "STUDENT") {
       const findStudent = await this.studentsRepository.findByUserIdAndClassId({
@@ -65,6 +79,7 @@ class FindClassInfoUseCase {
         create_date: findStudent.class.created_at,
         teacher_name: findStudent.class.teacher.name,
         coins_max: 210,
+        invite_token: invite_token.token,
         student_info: {
           student_id: findStudent.id,
           student_name: findStudent.user.name,
@@ -93,6 +108,7 @@ class FindClassInfoUseCase {
         create_date: findClass.created_at,
         teacher_name: findClass.teacher.name,
         coins_max: 210,
+        invite_token: invite_token.token,
       });
     }
 

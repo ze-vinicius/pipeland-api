@@ -20,6 +20,7 @@ class StudentsRepository implements IStudentsRepository {
 
     return newStudent;
   }
+
   async findByUserIdAndClassId({
     class_id,
     user_id,

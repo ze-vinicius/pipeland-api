@@ -1,6 +1,7 @@
 import { inject, injectable } from "tsyringe";
 
 import { IUsersRepository } from "@modules/accounts/repositories/IUsersRepository";
+import { IClassesInviteTokensRepository } from "@modules/classes/repositories/IClassesInviteTokensRepository";
 import { IClassesRepository } from "@modules/classes/repositories/IClassesRepository";
 import { AppError } from "@shared/errors/AppError";
 
@@ -22,7 +23,9 @@ class CreateClassUseCase {
     @inject("ClassesRepository")
     private classesRepository: IClassesRepository,
     @inject("UsersRepository")
-    private usersRepository: IUsersRepository
+    private usersRepository: IUsersRepository,
+    @inject("ClassesInviteTokensRepository")
+    private classesInviteTokensRepository: IClassesInviteTokensRepository
   ) {}
 
   public async execute({ name, teacher_id }: IRequest): Promise<IResponse> {
@@ -36,6 +39,8 @@ class CreateClassUseCase {
       name,
       teacher_id,
     });
+
+    await this.classesInviteTokensRepository.generate(createdClass.id);
 
     return {
       id: createdClass.id,

@@ -33,6 +33,7 @@ class AddStudentsToClassUseCase {
     if (!findClass) {
       throw new AppError("A class with this teacher was not found");
     }
+
     if (findClass.teacher_id !== teacher_id) {
       throw new AppError("You are not authorized", 501);
     }

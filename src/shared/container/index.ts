@@ -2,11 +2,13 @@ import { container } from "tsyringe";
 
 import { UsersRepository } from "@modules/accounts/infra/typeorm/repositories/UsersRepository";
 import { IUsersRepository } from "@modules/accounts/repositories/IUsersRepository";
+import { ClassesInviteTokensRepository } from "@modules/classes/infra/typeorm/repositories/ClassesInviteTokensRepository";
 import { ClassesRepository } from "@modules/classes/infra/typeorm/repositories/ClassesRepository";
 import { GameElementsRepository } from "@modules/classes/infra/typeorm/repositories/GameElementsRepository";
 import { StudentsRepository } from "@modules/classes/infra/typeorm/repositories/StudentsRepository";
 import { TasksElementsRepository } from "@modules/classes/infra/typeorm/repositories/TasksElementsRepository";
 import { TasksRepository } from "@modules/classes/infra/typeorm/repositories/TasksRepository";
+import { IClassesInviteTokensRepository } from "@modules/classes/repositories/IClassesInviteTokensRepository";
 import { IClassesRepository } from "@modules/classes/repositories/IClassesRepository";
 import { IGameElementsRepository } from "@modules/classes/repositories/IGameElementsRepository";
 import { IStudentsRepository } from "@modules/classes/repositories/IStudentsRepository";
@@ -41,4 +43,9 @@ container.registerSingleton<ITasksRepository>(
 container.registerSingleton<ITasksElementsRepository>(
   "TasksElementsRepository",
   TasksElementsRepository
+);
+
+container.registerSingleton<IClassesInviteTokensRepository>(
+  "ClassesInviteTokensRepository",
+  ClassesInviteTokensRepository
 );

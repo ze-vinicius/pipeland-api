@@ -5,6 +5,7 @@ import { CreateClassController } from "@modules/classes/useCases/createClass/Cre
 import { CreateTaskController } from "@modules/classes/useCases/createTaskUseCase/CreateTaskController";
 import { FindClassInfoController } from "@modules/classes/useCases/findClassInfo/FindClassInfoController";
 import { FindTaskDetailsController } from "@modules/classes/useCases/findTaskDetails/FindTaskDetailsController";
+import { JoinClassController } from "@modules/classes/useCases/joinClass/JoinClassController";
 import { ListClassTasksController } from "@modules/classes/useCases/listClassTasks/ListClassTasksController";
 import { ListGameElementsController } from "@modules/classes/useCases/listGameElements/ListGameElementsController";
 import { ListUserClassesController } from "@modules/classes/useCases/listUserClasses/ListUserClassesController";
@@ -22,6 +23,7 @@ const createTaskController = new CreateTaskController();
 const listClassTasksController = new ListClassTasksController();
 const findTaskDetailsController = new FindTaskDetailsController();
 const listGameElementsController = new ListGameElementsController();
+const joinClassController = new JoinClassController();
 
 // ROUTES
 classesRouter.post(
@@ -36,6 +38,13 @@ classesRouter.get(
   ensureAuthenticated,
   ensureAuthorizated("TEACHER", "STUDENT"),
   listUserClasses.handle
+);
+
+classesRouter.post(
+  "/join",
+  ensureAuthenticated,
+  ensureAuthorizated("STUDENT"),
+  joinClassController.handle
 );
 
 classesRouter.get("/game-elements", listGameElementsController.handle);
