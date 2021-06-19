@@ -15,6 +15,7 @@ type IResponse = Array<{
   active: boolean;
   create_date: Date;
   teacher_name: string;
+  status: string;
 }>;
 
 @injectable()
@@ -44,6 +45,7 @@ class ListUserClassesUseCase {
         id: student.class.id,
         name: student.class.name,
         active: student.class.active,
+        status: student.class.active ? "OPENED" : "CLOSED",
         teacher_name: student.class.teacher.name,
         create_date: student.class.created_at,
       }));
@@ -61,6 +63,7 @@ class ListUserClassesUseCase {
       active: c.active,
       create_date: c.created_at,
       teacher_name: c.teacher.name,
+      status: c.active ? "OPENED" : "CLOSED",
     }));
 
     return formatClasses;

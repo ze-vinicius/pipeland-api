@@ -4,7 +4,9 @@ import { IUsersRepository } from "@modules/accounts/repositories/IUsersRepositor
 import { IClassesInviteTokensRepository } from "@modules/classes/repositories/IClassesInviteTokensRepository";
 import { IClassesRepository } from "@modules/classes/repositories/IClassesRepository";
 import { IStudentsRepository } from "@modules/classes/repositories/IStudentsRepository";
+import { ITasksCorrectionsRepository } from "@modules/classes/repositories/ITasksCorrectionsRepository";
 import { AppError } from "@shared/errors/AppError";
+import { utils } from "@shared/utils";
 
 interface IRequest {
   user_id: string;
@@ -40,7 +42,9 @@ class FindClassInfoUseCase {
     @inject("StudentsRepository")
     private studentsRepository: IStudentsRepository,
     @inject("ClassesInviteTokensRepository")
-    private classesInviteTokensRepository: IClassesInviteTokensRepository
+    private classesInviteTokensRepository: IClassesInviteTokensRepository,
+    @inject("TasksCorrectionsRepository")
+    private tasksCorrectiosnRepository: ITasksCorrectionsRepository
   ) {}
 
   public async execute({ user_id, class_id }: IRequest): Promise<IResponse> {
@@ -72,6 +76,18 @@ class FindClassInfoUseCase {
         throw new AppError("Class was not found");
       }
 
+      const studentTasksCorrections = await this.tasksCorrectiosnRepository.finAllByStudentId(
+        findStudent.id
+      );
+
+      const current_coins_qty = studentTasksCorrections.reduce((acc, curr) => {
+        return acc + curr.earned_coins;
+      }, 0);
+
+      const current_avatar = utils.getStudentCurrentAvatar(current_coins_qty);
+
+      console.log(current_avatar);
+
       Object.assign(formatClass, {
         id: findStudent.class.id,
         name: findStudent.class.name,
@@ -86,8 +102,8 @@ class FindClassInfoUseCase {
           user_id: findStudent.user_id,
           photo: findStudent.photo,
           nickname: findStudent.nickname,
-          current_coins_qty: 0,
-          current_avatar: "mario",
+          current_coins_qty,
+          current_avatar,
           current_mushroom_ups_qty: 0,
         },
       });

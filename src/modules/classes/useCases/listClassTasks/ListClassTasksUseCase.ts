@@ -1,6 +1,8 @@
+import { isAfter } from "date-fns/esm";
 import { inject, injectable } from "tsyringe";
 
 import { ITasksRepository } from "@modules/classes/repositories/ITasksRepository";
+import { utils } from "@shared/utils";
 // import { AppError } from "@shared/errors/AppError";
 
 interface IRequest {
@@ -54,7 +56,7 @@ class ListClassTasksUseCase {
         return {
           id: task.id,
           title: task.title,
-          status: "OPEN",
+          status: utils.getTaskStatus(task.delivery_date),
           delivery_date: task.delivery_date,
           task_value,
           task_elements: formatedTaskElements,

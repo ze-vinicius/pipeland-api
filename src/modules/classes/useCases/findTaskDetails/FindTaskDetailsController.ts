@@ -5,13 +5,14 @@ import { FindTaskDetailsUseCase } from "./FindTaskDetailsUseCase";
 
 class FindTaskDetailsController {
   async handle(request: Request, response: Response): Promise<Response> {
-    const { class_id, task_id } = request.params;
+    const { id } = request.params;
+    const user_id = request.user.id;
 
     const findTaskDetails = container.resolve(FindTaskDetailsUseCase);
 
     const taskDetails = await findTaskDetails.execute({
-      class_id,
-      task_id,
+      id,
+      user_id,
     });
 
     return response.status(200).json(taskDetails);
