@@ -4,6 +4,7 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
@@ -11,6 +12,7 @@ import { v4 } from "uuid";
 
 import { Student } from "./Student";
 import { Task } from "./Task";
+import { TaskCorrectionElement } from "./TaskCorrectionElement";
 
 @Entity("tasks_corrections")
 class TaskCorrection {
@@ -29,6 +31,9 @@ class TaskCorrection {
   @Column()
   student_id: string;
 
+  @Column("timestamp")
+  delivered_date: Date;
+
   @JoinColumn({ name: "task_id" })
   @ManyToOne(() => Task)
   task: Task;
@@ -36,6 +41,12 @@ class TaskCorrection {
   @JoinColumn({ name: "student_id" })
   @ManyToOne(() => Student)
   student: Student;
+
+  @OneToMany(
+    () => TaskCorrectionElement,
+    (task_correction_element) => task_correction_element.task_correction
+  )
+  task_correction_elements: TaskCorrectionElement[];
 
   @CreateDateColumn()
   created_at: Date;

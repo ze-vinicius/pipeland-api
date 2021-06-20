@@ -6,6 +6,7 @@ interface ITasksCorrectionsRepository {
     student_id: string;
     earned_coins: number;
     comment?: string;
+    delivered_date?: string;
   }): Promise<TaskCorrection>;
 
   findByTaskIdAndStudentId(data: {

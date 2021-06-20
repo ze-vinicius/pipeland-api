@@ -1,11 +1,11 @@
 import { MigrationInterface, QueryRunner, Table } from "typeorm";
 
-export class CreateTableTasksCorrections1624122266914
+export class CreateTableTasksCorrectionsElements1624138440441
   implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: "tasks_corrections",
+        name: "tasks_corrections_elements",
         columns: [
           {
             name: "id",
@@ -14,26 +14,13 @@ export class CreateTableTasksCorrections1624122266914
             generationStrategy: "uuid",
           },
           {
-            name: "task_id",
+            name: "task_correction_id",
             type: "uuid",
             isNullable: true,
           },
           {
-            name: "student_id",
+            name: "game_element_id",
             type: "uuid",
-            isNullable: true,
-          },
-          {
-            name: "earned_coins",
-            type: "int",
-          },
-          {
-            name: "comment",
-            type: "text",
-          },
-          {
-            name: "delivered_date",
-            type: "timestamp",
             isNullable: true,
           },
           {
@@ -49,17 +36,17 @@ export class CreateTableTasksCorrections1624122266914
         ],
         foreignKeys: [
           {
-            name: "TaskCorrectionTask",
-            columnNames: ["task_id"],
-            referencedTableName: "tasks",
+            name: "TaskCorrectionElementTaskCorrection",
+            columnNames: ["task_correction_id"],
+            referencedTableName: "tasks_corrections",
             referencedColumnNames: ["id"],
             onDelete: "SET NULL",
             onUpdate: "CASCADE",
           },
           {
-            name: "TaskCorrectionStudent",
-            columnNames: ["student_id"],
-            referencedTableName: "students",
+            name: "TaskCorrectionGameElement",
+            columnNames: ["game_element_id"],
+            referencedTableName: "game_elements",
             referencedColumnNames: ["id"],
             onDelete: "SET NULL",
             onUpdate: "CASCADE",
@@ -70,6 +57,6 @@ export class CreateTableTasksCorrections1624122266914
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable("tasks_corrections");
+    await queryRunner.dropTable("tasks_corrections_elements");
   }
 }

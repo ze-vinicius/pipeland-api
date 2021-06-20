@@ -14,6 +14,21 @@ interface IRequest {
   user_id: string;
 }
 
+interface ITaskCorrectionElement {
+  id: string;
+  name: string;
+  imageUrl: string;
+  type: "REWARD" | "PENALTY";
+}
+interface ITaskCorrection {
+  id: string;
+  comment?: string;
+  earned_coins: number;
+  delivered_date: Date | undefined;
+  applied_penalties: Array<ITaskCorrectionElement>;
+  applied_bonuses: Array<ITaskCorrectionElement>;
+}
+
 type IResponse = {
   id: string;
   title: string;
@@ -22,7 +37,7 @@ type IResponse = {
   create_date: Date;
   task_value: number;
   status: "OPEN" | "CLOSED" | "CORRECTED";
-  task_correction?: TaskCorrection | undefined;
+  task_correction?: ITaskCorrection | undefined;
   task_elements: {
     id: string;
     name: string;
@@ -72,7 +87,7 @@ class FindTaskDetailsUseCase {
       };
     });
 
-    let taskCorrection: TaskCorrection | undefined;
+    let findTaskCorrection: TaskCorrection | undefined;
 
     if (findUser.role === "STUDENT") {
       const findStudent = await this.studentsRepository.findByUserIdAndClassId({
@@ -84,7 +99,7 @@ class FindTaskDetailsUseCase {
         throw new AppError("Você não tem autorização para isso!");
       }
 
-      taskCorrection = await this.tasksCorrectionsRepository.findByTaskIdAndStudentId(
+      findTaskCorrection = await this.tasksCorrectionsRepository.findByTaskIdAndStudentId(
         {
           task_id: id,
           student_id: findStudent.id,
@@ -92,7 +107,7 @@ class FindTaskDetailsUseCase {
       );
     }
 
-    const formatTask = {
+    const formatTask: IResponse = {
       id: findTask.id,
       title: findTask.title,
       description: findTask.description,
@@ -101,8 +116,39 @@ class FindTaskDetailsUseCase {
       status: utils.getTaskStatus(findTask.delivery_date),
       task_value,
       task_elements: formatedTaskElements,
-      task_correction: taskCorrection,
+      task_correction: undefined,
     };
+
+    if (findTaskCorrection) {
+      const applied_penalties: Array<ITaskCorrectionElement> = [];
+      const applied_bonuses: Array<ITaskCorrectionElement> = [];
+
+      findTaskCorrection.task_correction_elements.forEach(
+        (taskCorrectionElement) => {
+          const formatCorrectionElement = {
+            id: taskCorrectionElement.id,
+            name: taskCorrectionElement.game_element.name,
+            imageUrl: taskCorrectionElement.game_element.imageUrl,
+            type: taskCorrectionElement.game_element.type,
+          };
+
+          if (formatCorrectionElement.type === "PENALTY") {
+            applied_penalties.push(formatCorrectionElement);
+          } else {
+            applied_bonuses.push(formatCorrectionElement);
+          }
+        }
+      );
+
+      formatTask.task_correction = {
+        id: findTaskCorrection.id,
+        earned_coins: findTaskCorrection.earned_coins,
+        delivered_date: findTaskCorrection.delivered_date,
+        comment: findTaskCorrection.comment,
+        applied_penalties,
+        applied_bonuses,
+      };
+    }
 
     return formatTask;
   }

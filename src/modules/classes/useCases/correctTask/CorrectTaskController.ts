@@ -5,7 +5,13 @@ import { CorrectTaskUseCase } from "./CorrectTaskUseCase";
 
 class CorrectTaskController {
   async handle(request: Request, response: Response): Promise<Response> {
-    const { student_id, coins, comment } = request.body;
+    const {
+      student_id,
+      coins,
+      comment,
+      delivered_date,
+      gotShell,
+    } = request.body;
     const task_id = request.params.id;
 
     const correctTask = container.resolve(CorrectTaskUseCase);
@@ -15,6 +21,8 @@ class CorrectTaskController {
       coins,
       comment,
       task_id,
+      delivered_date,
+      gotShell,
     });
 
     return response.status(201).json(newCorrectedTask);

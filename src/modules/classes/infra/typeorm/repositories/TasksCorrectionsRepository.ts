@@ -16,6 +16,7 @@ class TasksCorrectionsRepository implements ITasksCorrectionsRepository {
     student_id: string;
     earned_coins: number;
     comment?: string;
+    delivered_date?: string;
   }): Promise<TaskCorrection> {
     const newTaskCorrection = this.ormRepository.create(data);
 
@@ -36,6 +37,10 @@ class TasksCorrectionsRepository implements ITasksCorrectionsRepository {
         task_id,
         student_id,
       },
+      relations: [
+        "task_correction_elements",
+        "task_correction_elements.game_element",
+      ],
     });
   }
 

@@ -6,6 +6,7 @@ import { ClassesInviteTokensRepository } from "@modules/classes/infra/typeorm/re
 import { ClassesRepository } from "@modules/classes/infra/typeorm/repositories/ClassesRepository";
 import { GameElementsRepository } from "@modules/classes/infra/typeorm/repositories/GameElementsRepository";
 import { StudentsRepository } from "@modules/classes/infra/typeorm/repositories/StudentsRepository";
+import { TasksCorrectionsElementsRepository } from "@modules/classes/infra/typeorm/repositories/TasksCorrectionsElementsRepository";
 import { TasksCorrectionsRepository } from "@modules/classes/infra/typeorm/repositories/TasksCorrectionsRepository";
 import { TasksElementsRepository } from "@modules/classes/infra/typeorm/repositories/TasksElementsRepository";
 import { TasksRepository } from "@modules/classes/infra/typeorm/repositories/TasksRepository";
@@ -13,6 +14,7 @@ import { IClassesInviteTokensRepository } from "@modules/classes/repositories/IC
 import { IClassesRepository } from "@modules/classes/repositories/IClassesRepository";
 import { IGameElementsRepository } from "@modules/classes/repositories/IGameElementsRepository";
 import { IStudentsRepository } from "@modules/classes/repositories/IStudentsRepository";
+import { ITasksCorrectionsElementsRepository } from "@modules/classes/repositories/ITasksCorrectionsElementsRepository";
 import { ITasksCorrectionsRepository } from "@modules/classes/repositories/ITasksCorrectionsRepository";
 import { ITasksElementsRepository } from "@modules/classes/repositories/ITasksElementsRepository";
 import { ITasksRepository } from "@modules/classes/repositories/ITasksRepository";
@@ -55,4 +57,9 @@ container.registerSingleton<IClassesInviteTokensRepository>(
 container.registerSingleton<ITasksCorrectionsRepository>(
   "TasksCorrectionsRepository",
   TasksCorrectionsRepository
+);
+
+container.registerSingleton<ITasksCorrectionsElementsRepository>(
+  "TasksCorrectionsElementsRepository",
+  TasksCorrectionsElementsRepository
 );
