@@ -4,10 +4,13 @@ import { AddStudentsToClassController } from "@modules/classes/useCases/addStude
 import { CreateClassController } from "@modules/classes/useCases/createClass/CreateClassController";
 import { CreateTaskController } from "@modules/classes/useCases/createTaskUseCase/CreateTaskController";
 import { FindClassInfoController } from "@modules/classes/useCases/findClassInfo/FindClassInfoController";
+import { FindClassRankingController } from "@modules/classes/useCases/findClassRanking/FindClassRankingController";
+import { FindDayAttendanceListController } from "@modules/classes/useCases/findDayAttendanceList/FindDayAttendanceListController";
 import { JoinClassController } from "@modules/classes/useCases/joinClass/JoinClassController";
 import { ListClassTasksController } from "@modules/classes/useCases/listClassTasks/ListClassTasksController";
 import { ListGameElementsController } from "@modules/classes/useCases/listGameElements/ListGameElementsController";
 import { ListUserClassesController } from "@modules/classes/useCases/listUserClasses/ListUserClassesController";
+import { RegisterDayAttendanceListController } from "@modules/classes/useCases/registerDayAttendanceList/RegisterDayAttendanceListController";
 import { ensureAuthenticated } from "@shared/infra/http/middlewares/ensureAuthenticated";
 import { ensureAuthorizated } from "@shared/infra/http/middlewares/ensureAuthorizated";
 
@@ -22,6 +25,9 @@ const createTaskController = new CreateTaskController();
 const listClassTasksController = new ListClassTasksController();
 const listGameElementsController = new ListGameElementsController();
 const joinClassController = new JoinClassController();
+const findClassRankingController = new FindClassRankingController();
+const registerDayAttendanceListController = new RegisterDayAttendanceListController();
+const findDayAttendanceListController = new FindDayAttendanceListController();
 
 // ROUTES
 classesRouter.post(
@@ -52,6 +58,27 @@ classesRouter.get(
   ensureAuthenticated,
   ensureAuthorizated("TEACHER", "STUDENT"),
   findClassInfoController.handle
+);
+
+classesRouter.post(
+  "/:id/attendance-list",
+  ensureAuthenticated,
+  ensureAuthorizated("TEACHER"),
+  registerDayAttendanceListController.handle
+);
+
+classesRouter.get(
+  "/:id/attendance-list",
+  ensureAuthenticated,
+  ensureAuthorizated("TEACHER", "STUDENT"),
+  findDayAttendanceListController.handle
+);
+
+classesRouter.get(
+  "/:id/ranking",
+  ensureAuthenticated,
+  ensureAuthorizated("TEACHER", "STUDENT"),
+  findClassRankingController.handle
 );
 
 classesRouter.post(

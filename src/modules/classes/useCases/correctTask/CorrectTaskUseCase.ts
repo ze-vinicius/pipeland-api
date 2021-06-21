@@ -5,8 +5,8 @@ import { inject, injectable } from "tsyringe";
 import { TaskCorrection } from "@modules/classes/infra/typeorm/entities/TaskCorrection";
 // import { IClassesInviteTokensRepository } from "@modules/classes/repositories/IClassesInviteTokensRepository";
 // import { IClassesRepository } from "@modules/classes/repositories/IClassesRepository";
-import { TaskCorrectionElement } from "@modules/classes/infra/typeorm/entities/TaskCorrectionElement";
-import { IStudentsRepository } from "@modules/classes/repositories/IStudentsRepository";
+// import { TaskCorrectionElement } from "@modules/classes/infra/typeorm/entities/TaskCorrectionElement";
+// import { IStudentsRepository } from "@modules/classes/repositories/IStudentsRepository";
 import { ITasksCorrectionsElementsRepository } from "@modules/classes/repositories/ITasksCorrectionsElementsRepository";
 import { ITasksCorrectionsRepository } from "@modules/classes/repositories/ITasksCorrectionsRepository";
 import { ITasksRepository } from "@modules/classes/repositories/ITasksRepository";
@@ -29,8 +29,8 @@ class CorrectTaskUseCase {
   constructor(
     @inject("TasksRepository")
     private tasksRepository: ITasksRepository,
-    @inject("StudentsRepository")
-    private studentsRepository: IStudentsRepository,
+    // @inject("StudentsRepository")
+    // private studentsRepository: IStudentsRepository,
     @inject("TasksCorrectionsRepository")
     private tasksCorrectionsRepository: ITasksCorrectionsRepository,
     @inject("TasksCorrectionsElementsRepository")

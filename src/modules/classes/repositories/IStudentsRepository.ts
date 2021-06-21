@@ -2,6 +2,16 @@ import { ICreateStudentDTO } from "../dtos/ICreateStudentDTO";
 import { IFindStudentsByIdAndClassIdDTO } from "../dtos/IFindStudentsByIdAndClassIdDTO";
 import { Student } from "../infra/typeorm/entities/Student";
 
+export interface IStudentRanking {
+  ranking: number;
+  student_id: string;
+  name: string;
+  user_id: string;
+  nickname: string;
+  photo: string;
+  current_coins_qty: string;
+}
+
 interface IStudentsRepository {
   create(data: ICreateStudentDTO): Promise<Student>;
 
@@ -12,6 +22,8 @@ interface IStudentsRepository {
   bulkCreate(data: ICreateStudentDTO[]): Promise<Student[]>;
 
   findAllByUserId(user_id: string): Promise<Student[]>;
+
+  findClassRanking(class_id: string): Promise<Array<IStudentRanking>>;
 }
 
 export { IStudentsRepository };

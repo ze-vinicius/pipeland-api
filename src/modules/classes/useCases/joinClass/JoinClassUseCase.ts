@@ -38,8 +38,6 @@ class JoinClassUseCase {
       class_invite_token
     );
 
-    console.log(class_invite_token);
-
     if (!findClassInviteToken) {
       throw new AppError("This token was not found", 404);
     }

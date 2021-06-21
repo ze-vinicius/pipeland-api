@@ -86,8 +86,6 @@ class FindClassInfoUseCase {
 
       const current_avatar = utils.getStudentCurrentAvatar(current_coins_qty);
 
-      console.log(current_avatar);
-
       Object.assign(formatClass, {
         id: findStudent.class.id,
         name: findStudent.class.name,

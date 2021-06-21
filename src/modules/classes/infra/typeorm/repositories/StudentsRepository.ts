@@ -2,7 +2,10 @@ import { getRepository, Repository } from "typeorm";
 
 import { ICreateStudentDTO } from "@modules/classes/dtos/ICreateStudentDTO";
 import { IFindStudentsByIdAndClassIdDTO } from "@modules/classes/dtos/IFindStudentsByIdAndClassIdDTO";
-import { IStudentsRepository } from "@modules/classes/repositories/IStudentsRepository";
+import {
+  IStudentRanking,
+  IStudentsRepository,
+} from "@modules/classes/repositories/IStudentsRepository";
 
 import { Student } from "../entities/Student";
 
@@ -53,6 +56,23 @@ class StudentsRepository implements IStudentsRepository {
     });
 
     return findStudents;
+  }
+
+  async findClassRanking(class_id: string): Promise<Array<IStudentRanking>> {
+    const studentsRanking: IStudentRanking[] = await this.ormRepository.manager
+      .query(`
+        select row_number() over(order by s.id) as ranking, s.id as student_id, u."name", u.id as user_id, s.nickname, s.photo, coalesce(sum(tc.earned_coins), 0) as current_coins_qty
+        from students as s 
+        left join tasks_corrections as tc 
+        on s.id = tc.student_id 
+        left join users as u
+        on s.user_id = u.id
+        where s.class_id = '${class_id}'
+        group by s.id, u.id
+        order by current_coins_qty
+      `);
+
+    return studentsRanking;
   }
 }
 
