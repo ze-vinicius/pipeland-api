@@ -29,7 +29,18 @@ class AttendancesRepository implements IAttendancesRepository {
     class_id: string;
     date: string;
   }): Promise<Attendance[]> {
-    return this.ormRepository.find({ where: { class_id, date } });
+    return this.ormRepository.find({
+      where: { class_id, date },
+      relations: ["student", "student.user"],
+    });
+  }
+
+  async save(data: Attendance): Promise<Attendance> {
+    return this.ormRepository.save(data);
+  }
+
+  async saveAll(data: Attendance[]): Promise<Attendance[]> {
+    return this.ormRepository.save(data);
   }
 }
 

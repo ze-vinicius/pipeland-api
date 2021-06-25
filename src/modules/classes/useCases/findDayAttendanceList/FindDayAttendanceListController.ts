@@ -7,7 +7,7 @@ class FindDayAttendanceListController {
   async handle(request: Request, response: Response): Promise<Response> {
     const logged_user_id = request.user.id;
     const class_id = request.params.id;
-    const { date } = request.body;
+    const { date } = request.query;
 
     const findDayAttendanceList = container.resolve(
       FindDayAttendanceListUseCase
@@ -15,7 +15,7 @@ class FindDayAttendanceListController {
 
     const dayAttendanceList = await findDayAttendanceList.execute({
       class_id,
-      date,
+      date: String(date),
       logged_user_id,
     });
 

@@ -10,7 +10,7 @@ import { JoinClassController } from "@modules/classes/useCases/joinClass/JoinCla
 import { ListClassTasksController } from "@modules/classes/useCases/listClassTasks/ListClassTasksController";
 import { ListGameElementsController } from "@modules/classes/useCases/listGameElements/ListGameElementsController";
 import { ListUserClassesController } from "@modules/classes/useCases/listUserClasses/ListUserClassesController";
-import { RegisterDayAttendanceListController } from "@modules/classes/useCases/registerDayAttendanceList/RegisterDayAttendanceListController";
+import { UpdateDayAttendanceListController } from "@modules/classes/useCases/updateDayAttendanceList/UpdateDayAttendanceListController";
 import { ensureAuthenticated } from "@shared/infra/http/middlewares/ensureAuthenticated";
 import { ensureAuthorizated } from "@shared/infra/http/middlewares/ensureAuthorizated";
 
@@ -26,7 +26,7 @@ const listClassTasksController = new ListClassTasksController();
 const listGameElementsController = new ListGameElementsController();
 const joinClassController = new JoinClassController();
 const findClassRankingController = new FindClassRankingController();
-const registerDayAttendanceListController = new RegisterDayAttendanceListController();
+const updateDayAttendanceList = new UpdateDayAttendanceListController();
 const findDayAttendanceListController = new FindDayAttendanceListController();
 
 // ROUTES
@@ -60,17 +60,17 @@ classesRouter.get(
   findClassInfoController.handle
 );
 
-classesRouter.post(
+classesRouter.put(
   "/:id/attendance-list",
   ensureAuthenticated,
   ensureAuthorizated("TEACHER"),
-  registerDayAttendanceListController.handle
+  updateDayAttendanceList.handle
 );
 
 classesRouter.get(
   "/:id/attendance-list",
   ensureAuthenticated,
-  ensureAuthorizated("TEACHER", "STUDENT"),
+  ensureAuthorizated("TEACHER"),
   findDayAttendanceListController.handle
 );
 

@@ -1,16 +1,16 @@
 import { Response, Request } from "express";
 import { container } from "tsyringe";
 
-import { RegisterDayAttendanceListUseCase } from "./RegisterDayAttendanceListUseCase";
+import { UpdateDayAttendanceListUseCase } from "./UpdateDayAttendanceListUseCase";
 
-class RegisterDayAttendanceListController {
+class UpdateDayAttendanceListController {
   async handle(request: Request, response: Response): Promise<Response> {
     const logged_user_id = request.user.id;
     const class_id = request.params.id;
     const { date, students } = request.body;
 
     const registerDayAttendance = container.resolve(
-      RegisterDayAttendanceListUseCase
+      UpdateDayAttendanceListUseCase
     );
 
     const dayAttendanceList = await registerDayAttendance.execute({
@@ -24,4 +24,4 @@ class RegisterDayAttendanceListController {
   }
 }
 
-export { RegisterDayAttendanceListController };
+export { UpdateDayAttendanceListController };

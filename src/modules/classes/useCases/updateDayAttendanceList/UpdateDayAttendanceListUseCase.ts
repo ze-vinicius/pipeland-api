@@ -1,3 +1,4 @@
+import { startOfDay } from "date-fns";
 import { inject, injectable } from "tsyringe";
 
 import { Attendance } from "@modules/classes/infra/typeorm/entities/Attendance";
@@ -13,7 +14,7 @@ interface IRequest {
 }
 
 @injectable()
-class RegisterDayAttendanceListUseCase {
+class UpdateDayAttendanceListUseCase {
   constructor(
     @inject("AttendancesRepository")
     private attendancesRepository: IAttendancesRepository,
@@ -37,11 +38,39 @@ class RegisterDayAttendanceListUseCase {
       throw new AppError("Você não tem autorização para fazer isso", 401);
     }
 
+    const formatedDate = startOfDay(new Date(date));
+
+    const findAttendances = await this.attendancesRepository.findAllByClassIdAndDate(
+      {
+        class_id,
+        date: formatedDate,
+      }
+    );
+
+    if (findAttendances) {
+      const formattedAttendances = findAttendances.map((attendance) => {
+        const findAttendance = students.find(
+          (student) => student.student_id === attendance.student_id
+        );
+
+        return {
+          ...attendance,
+          is_present: findAttendance?.is_present ?? false,
+        };
+      });
+
+      const updatedAttendances = await this.attendancesRepository.saveAll(
+        formattedAttendances
+      );
+
+      return updatedAttendances;
+    }
+
     const formatedAttendance = students.map((student) => ({
       student_id: student.student_id,
       is_present: student.is_present,
       class_id,
-      date,
+      date: formatedDate,
     }));
 
     const newAttendances = await this.attendancesRepository.bulkCreate(
@@ -52,4 +81,4 @@ class RegisterDayAttendanceListUseCase {
   }
 }
 
-export { RegisterDayAttendanceListUseCase };
+export { UpdateDayAttendanceListUseCase };

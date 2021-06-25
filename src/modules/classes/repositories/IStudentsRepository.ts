@@ -24,6 +24,8 @@ interface IStudentsRepository {
   findAllByUserId(user_id: string): Promise<Student[]>;
 
   findClassRanking(class_id: string): Promise<Array<IStudentRanking>>;
+
+  findAllByClassId(class_id: string): Promise<Student[]>;
 }
 
 export { IStudentsRepository };

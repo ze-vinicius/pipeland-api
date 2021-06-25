@@ -74,6 +74,13 @@ class StudentsRepository implements IStudentsRepository {
 
     return studentsRanking;
   }
+
+  findAllByClassId(class_id: string): Promise<Student[]> {
+    return this.ormRepository.find({
+      where: { class_id },
+      relations: ["user"],
+    });
+  }
 }
 
 export { StudentsRepository };
