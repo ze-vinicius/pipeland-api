@@ -1,5 +1,6 @@
 import { inject, injectable } from "tsyringe";
 
+import { IAttendancesRepository } from "@modules/classes/repositories/IAttendancesRepository";
 import {
   IStudentRanking,
   IStudentsRepository,
@@ -13,7 +14,9 @@ interface IRequest {
 class FindClassRankingUseCase {
   constructor(
     @inject("StudentsRepository")
-    private studentsRepository: IStudentsRepository
+    private studentsRepository: IStudentsRepository,
+    @inject("AttendancesRepository")
+    private attendancesRepository: IAttendancesRepository
   ) {}
 
   public async execute({ class_id }: IRequest): Promise<IStudentRanking[]> {
@@ -21,7 +24,34 @@ class FindClassRankingUseCase {
       class_id
     );
 
-    return studentsRanking;
+    const studentsAttendances = await this.attendancesRepository.findStudentsAttendancesCountByClassId(
+      class_id
+    );
+
+    const formatStudentsRanking = studentsRanking
+      .map((studentRanking) => {
+        const findStudentAttendance = studentsAttendances.find(
+          (student) => student.student_id === studentRanking.student_id
+        );
+
+        return {
+          ...studentRanking,
+          current_coins_qty:
+            Number(studentRanking.current_coins_qty) +
+            (findStudentAttendance
+              ? Number(findStudentAttendance.attendance_count)
+              : 0),
+        };
+      })
+      .sort((a, b) => {
+        return b.current_coins_qty - a.current_coins_qty;
+      })
+      .map((item, index) => ({
+        ranking: index + 1,
+        ...item,
+      }));
+
+    return formatStudentsRanking;
   }
 }
 

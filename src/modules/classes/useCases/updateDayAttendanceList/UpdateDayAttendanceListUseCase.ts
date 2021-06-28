@@ -47,7 +47,7 @@ class UpdateDayAttendanceListUseCase {
       }
     );
 
-    if (findAttendances) {
+    if (findAttendances.length) {
       const formattedAttendances = findAttendances.map((attendance) => {
         const findAttendance = students.find(
           (student) => student.student_id === attendance.student_id

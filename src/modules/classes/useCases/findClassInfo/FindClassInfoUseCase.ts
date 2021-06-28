@@ -1,6 +1,7 @@
 import { inject, injectable } from "tsyringe";
 
 import { IUsersRepository } from "@modules/accounts/repositories/IUsersRepository";
+import { IAttendancesRepository } from "@modules/classes/repositories/IAttendancesRepository";
 import { IClassesInviteTokensRepository } from "@modules/classes/repositories/IClassesInviteTokensRepository";
 import { IClassesRepository } from "@modules/classes/repositories/IClassesRepository";
 import { IStudentsRepository } from "@modules/classes/repositories/IStudentsRepository";
@@ -20,6 +21,7 @@ interface IStudentInfo {
   nickname?: string;
   current_coins_qty: number;
   current_avatar: string;
+  attendances_count: number;
 }
 
 type IResponse = {
@@ -44,7 +46,9 @@ class FindClassInfoUseCase {
     @inject("ClassesInviteTokensRepository")
     private classesInviteTokensRepository: IClassesInviteTokensRepository,
     @inject("TasksCorrectionsRepository")
-    private tasksCorrectiosnRepository: ITasksCorrectionsRepository
+    private tasksCorrectiosnRepository: ITasksCorrectionsRepository,
+    @inject("AttendancesRepository")
+    private attendancesRepository: IAttendancesRepository
   ) {}
 
   public async execute({ user_id, class_id }: IRequest): Promise<IResponse> {
@@ -76,13 +80,26 @@ class FindClassInfoUseCase {
         throw new AppError("Class was not found");
       }
 
+      const findStudentAttendancesCount = await this.attendancesRepository.findStudentAttendancesCountByStudentIdAndClassId(
+        {
+          class_id,
+          student_id: findStudent.id,
+        }
+      );
+
       const studentTasksCorrections = await this.tasksCorrectiosnRepository.finAllByStudentId(
         findStudent.id
       );
 
-      const current_coins_qty = studentTasksCorrections.reduce((acc, curr) => {
-        return acc + curr.earned_coins;
+      const studentCoinsQty = studentTasksCorrections.reduce((acc, curr) => {
+        return acc + curr.computed_coins;
       }, 0);
+
+      const attendances_count = findStudentAttendancesCount.length
+        ? Number(findStudentAttendancesCount[0].attendance_count)
+        : 0;
+
+      const current_coins_qty = studentCoinsQty + attendances_count;
 
       const current_avatar = utils.getStudentCurrentAvatar(current_coins_qty);
 
@@ -102,6 +119,7 @@ class FindClassInfoUseCase {
           nickname: findStudent.nickname,
           current_coins_qty,
           current_avatar,
+          attendances_count,
           current_mushroom_ups_qty: 0,
         },
       });

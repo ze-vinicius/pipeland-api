@@ -22,6 +22,9 @@ class TaskCorrection {
   @Column("int")
   earned_coins: number;
 
+  @Column("int")
+  computed_coins: number;
+
   @Column("text")
   comment: string;
 

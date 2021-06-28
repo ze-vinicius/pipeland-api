@@ -3,13 +3,12 @@ import { IFindStudentsByIdAndClassIdDTO } from "../dtos/IFindStudentsByIdAndClas
 import { Student } from "../infra/typeorm/entities/Student";
 
 export interface IStudentRanking {
-  ranking: number;
   student_id: string;
   name: string;
   user_id: string;
   nickname: string;
   photo: string;
-  current_coins_qty: string;
+  current_coins_qty: number;
 }
 
 interface IStudentsRepository {

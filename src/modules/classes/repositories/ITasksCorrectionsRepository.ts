@@ -5,6 +5,7 @@ interface ITasksCorrectionsRepository {
     task_id: string;
     student_id: string;
     earned_coins: number;
+    computed_coins: number;
     comment?: string;
     delivered_date?: string;
   }): Promise<TaskCorrection>;
@@ -13,6 +14,8 @@ interface ITasksCorrectionsRepository {
     task_id: string;
     student_id: string;
   }): Promise<TaskCorrection | undefined>;
+
+  findAllByTaskId(data: { task_id: string }): Promise<TaskCorrection[]>;
 
   finAllByStudentId(student_id: string): Promise<TaskCorrection[]>;
 }

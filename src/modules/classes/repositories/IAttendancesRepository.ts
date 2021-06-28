@@ -18,6 +18,28 @@ interface IAttendancesRepository {
     class_id: string;
     date: string | Date;
   }): Promise<Attendance[]>;
+
+  findStudentsAttendancesCountByClassId(
+    class_id: string
+  ): Promise<
+    Array<{
+      student_id: string;
+      attendance_count: number;
+    }>
+  >;
+
+  findStudentAttendancesCountByStudentIdAndClassId({
+    student_id,
+    class_id,
+  }: {
+    class_id: string;
+    student_id: string;
+  }): Promise<
+    Array<{
+      student_id: string;
+      attendance_count: number;
+    }>
+  >;
 }
 
 export { IAttendancesRepository };

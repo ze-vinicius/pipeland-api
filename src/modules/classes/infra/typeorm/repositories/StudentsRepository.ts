@@ -61,7 +61,13 @@ class StudentsRepository implements IStudentsRepository {
   async findClassRanking(class_id: string): Promise<Array<IStudentRanking>> {
     const studentsRanking: IStudentRanking[] = await this.ormRepository.manager
       .query(`
-        select row_number() over(order by s.id) as ranking, s.id as student_id, u."name", u.id as user_id, s.nickname, s.photo, coalesce(sum(tc.earned_coins), 0) as current_coins_qty
+        select 
+          s.id as student_id, 
+          u."name", 
+          u.id as user_id, 
+          s.nickname, 
+          s.photo, 
+          coalesce(sum(tc.computed_coins), 0) as current_coins_qty
         from students as s 
         left join tasks_corrections as tc 
         on s.id = tc.student_id 
@@ -69,7 +75,6 @@ class StudentsRepository implements IStudentsRepository {
         on s.user_id = u.id
         where s.class_id = '${class_id}'
         group by s.id, u.id
-        order by current_coins_qty
       `);
 
     return studentsRanking;

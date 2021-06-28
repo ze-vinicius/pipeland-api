@@ -28,6 +28,10 @@ export class CreateTableTasksCorrections1624122266914
             type: "int",
           },
           {
+            name: "computed_coins",
+            type: "int",
+          },
+          {
             name: "comment",
             type: "text",
           },

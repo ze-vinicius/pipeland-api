@@ -1,17 +1,11 @@
 import { differenceInDays } from "date-fns";
 import { inject, injectable } from "tsyringe";
 
-// import { IUsersRepository } from "@modules/accounts/repositories/IUsersRepository";
 import { TaskCorrection } from "@modules/classes/infra/typeorm/entities/TaskCorrection";
-// import { IClassesInviteTokensRepository } from "@modules/classes/repositories/IClassesInviteTokensRepository";
-// import { IClassesRepository } from "@modules/classes/repositories/IClassesRepository";
-// import { TaskCorrectionElement } from "@modules/classes/infra/typeorm/entities/TaskCorrectionElement";
-// import { IStudentsRepository } from "@modules/classes/repositories/IStudentsRepository";
 import { ITasksCorrectionsElementsRepository } from "@modules/classes/repositories/ITasksCorrectionsElementsRepository";
 import { ITasksCorrectionsRepository } from "@modules/classes/repositories/ITasksCorrectionsRepository";
 import { ITasksRepository } from "@modules/classes/repositories/ITasksRepository";
 import { AppError } from "@shared/errors/AppError";
-// import { AppError } from "@shared/errors/AppError";
 
 interface IRequest {
   task_id: string;
@@ -19,7 +13,7 @@ interface IRequest {
   coins: number;
   comment: string;
   delivered_date: string;
-  gotShell: boolean;
+  got_shell: boolean;
 }
 
 type IResponse = TaskCorrection;
@@ -43,7 +37,7 @@ class CorrectTaskUseCase {
     student_id,
     comment,
     delivered_date,
-    gotShell,
+    got_shell,
   }: IRequest): Promise<IResponse> {
     const findTask = await this.tasksRepository.findById(task_id);
 
@@ -51,11 +45,11 @@ class CorrectTaskUseCase {
       throw new AppError("Tarefa não encontrada!");
     }
 
-    let earnedCoins = coins;
+    let computedCoins = coins;
 
     let taskValue = 0;
 
-    const coinsAccuracy = (earnedCoins / taskValue) * 100;
+    const coinsAccuracy = (coins / taskValue) * 100;
 
     let piranhaPlantId = "";
     let pipeId = "";
@@ -92,13 +86,13 @@ class CorrectTaskUseCase {
       }
     });
 
-    if (!!piranhaPlantId && !delivered_date && earnedCoins === 0) {
-      earnedCoins -= taskValue * 0.5;
+    if (!!piranhaPlantId && !delivered_date && computedCoins === 0) {
+      computedCoins -= taskValue * 0.5;
       appliedElements.push(piranhaPlantId);
     }
 
     if (!!yoshiId && coinsAccuracy >= 80) {
-      earnedCoins -= taskValue * 0.5;
+      computedCoins -= taskValue * 0.5;
       appliedElements.push(yoshiId);
     }
 
@@ -106,22 +100,23 @@ class CorrectTaskUseCase {
       !!pipeId &&
       differenceInDays(findTask.delivery_date, new Date(delivered_date)) >= 2
     ) {
-      earnedCoins += taskValue * 0.1;
+      computedCoins += taskValue * 0.1;
       appliedElements.push(pipeId);
     }
 
-    if (gotShell && !!shellId) {
-      earnedCoins -= 1;
+    if (got_shell && !!shellId) {
+      computedCoins -= 1;
       appliedElements.push(shellId);
     }
 
     if (!!bombId && coinsAccuracy <= 30) {
-      earnedCoins -= taskValue * 0.3;
+      computedCoins -= taskValue * 0.3;
       appliedElements.push(bombId);
     }
 
     const newTaskCorrection = await this.tasksCorrectionsRepository.create({
-      earned_coins: earnedCoins,
+      earned_coins: coins,
+      computed_coins: computedCoins,
       task_id,
       student_id,
       comment,

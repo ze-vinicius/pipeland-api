@@ -142,7 +142,7 @@ class FindTaskDetailsUseCase {
 
       formatTask.task_correction = {
         id: findTaskCorrection.id,
-        earned_coins: findTaskCorrection.earned_coins,
+        earned_coins: findTaskCorrection.computed_coins,
         delivered_date: findTaskCorrection.delivered_date,
         comment: findTaskCorrection.comment,
         applied_penalties,

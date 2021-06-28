@@ -129,19 +129,19 @@ export default class CreateTableGameElements1623028560602
           type: "REWARD",
         },
         // PENALTIES
-        {
-          id: v4(),
-          name: "bullet",
-          description: "A cada 4 ausências do discente perde de 5 Coins.",
-          image: "bullet.png",
-          value: 5,
-          type: "REWARD",
-        },
+        // {
+        //   id: v4(),
+        //   name: "bullet",
+        //   description: "A cada 4 ausências do discente perde de 5 Coins.",
+        //   image: "bullet.png",
+        //   value: 5,
+        //   type: "REWARD",
+        // },
         {
           id: v4(),
           name: "auto bomb",
           description:
-            " Perda de Coins por não atendimento de requisito da atividade.",
+            "Perda de Coins por não atendimento de requisito da atividade.",
           image: "auto-bomb.png",
           value: 20,
           type: "PENALTY",
@@ -152,7 +152,7 @@ export default class CreateTableGameElements1623028560602
           description:
             "Para as atividades pode ser atribuído um percentual mínimo de acerto, caso o aluno não atinja o mínimo definido na Bomb, ele perde os Coins do percentual.",
           image: "bomb.png",
-          value: 50,
+          value: 30,
           type: "PENALTY",
         },
         {

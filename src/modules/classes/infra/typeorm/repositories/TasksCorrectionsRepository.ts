@@ -16,6 +16,7 @@ class TasksCorrectionsRepository implements ITasksCorrectionsRepository {
     student_id: string;
     earned_coins: number;
     comment?: string;
+    computed_coins: number;
     delivered_date?: string;
   }): Promise<TaskCorrection> {
     const newTaskCorrection = this.ormRepository.create(data);
@@ -47,6 +48,18 @@ class TasksCorrectionsRepository implements ITasksCorrectionsRepository {
   async finAllByStudentId(student_id: string): Promise<TaskCorrection[]> {
     return this.ormRepository.find({
       where: { student_id },
+    });
+  }
+
+  findAllByTaskId({ task_id }: { task_id: string }): Promise<TaskCorrection[]> {
+    return this.ormRepository.find({
+      where: {
+        task_id,
+      },
+      relations: [
+        "task_correction_elements",
+        "task_correction_elements.game_element",
+      ],
     });
   }
 }

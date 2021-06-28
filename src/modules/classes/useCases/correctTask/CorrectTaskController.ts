@@ -10,7 +10,7 @@ class CorrectTaskController {
       coins,
       comment,
       delivered_date,
-      gotShell,
+      got_shell,
     } = request.body;
     const task_id = request.params.id;
 
@@ -22,7 +22,7 @@ class CorrectTaskController {
       comment,
       task_id,
       delivered_date,
-      gotShell,
+      got_shell,
     });
 
     return response.status(201).json(newCorrectedTask);
