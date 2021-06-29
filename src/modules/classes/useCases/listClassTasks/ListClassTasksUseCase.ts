@@ -1,4 +1,3 @@
-import { isAfter } from "date-fns/esm";
 import { inject, injectable } from "tsyringe";
 
 import { ITasksRepository } from "@modules/classes/repositories/ITasksRepository";
@@ -14,6 +13,7 @@ interface ITaskResume {
   title: string;
   status: "OPEN" | "CLOSED" | "CORRECTED";
   delivery_date: Date;
+  create_date: Date;
   task_value: number;
   task_elements: Array<{
     id: string;
@@ -58,6 +58,7 @@ class ListClassTasksUseCase {
           title: task.title,
           status: utils.getTaskStatus(task.delivery_date),
           delivery_date: task.delivery_date,
+          create_date: task.created_at,
           task_value,
           task_elements: formatedTaskElements,
         };

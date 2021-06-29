@@ -1,7 +1,6 @@
 import { parseISO } from "date-fns";
 import { inject, injectable } from "tsyringe";
 
-import { Task } from "@modules/classes/infra/typeorm/entities/Task";
 import { IClassesRepository } from "@modules/classes/repositories/IClassesRepository";
 import { IGameElementsRepository } from "@modules/classes/repositories/IGameElementsRepository";
 import { ITasksElementsRepository } from "@modules/classes/repositories/ITasksElementsRepository";
@@ -25,6 +24,7 @@ interface IResponse {
   title: string;
   status: string;
   delivery_date: Date;
+  create_date: Date;
   task_value: number;
   task_elements: Array<{
     id: string;
@@ -101,6 +101,7 @@ class CreateTaskUseCase {
 
     return {
       ...createdTask,
+      create_date: createdTask.created_at,
       task_value,
       status: utils.getTaskStatus(createdTask.delivery_date),
       task_elements: formatedTaskElements,

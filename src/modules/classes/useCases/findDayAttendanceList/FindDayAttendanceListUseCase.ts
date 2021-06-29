@@ -12,15 +12,18 @@ interface IRequest {
   class_id: string;
 }
 
-type IResponse = Array<{
-  id: string | undefined;
-  name: string;
-  photo?: string | undefined;
-  is_present: boolean;
-  date: Date;
-  class_id: string;
-  student_id: string;
-}>;
+type IResponse = {
+  is_saved: boolean;
+  student_attendances: Array<{
+    id: string | undefined;
+    name: string;
+    photo?: string | undefined;
+    is_present: boolean;
+    date: Date;
+    class_id: string;
+    student_id: string;
+  }>;
+};
 
 @injectable()
 class FindDayAttendanceListUseCase {
@@ -61,7 +64,7 @@ class FindDayAttendanceListUseCase {
         class_id
       );
 
-      const formatResponse = findStudents.map((student) => {
+      const student_attendances = findStudents.map((student) => {
         return {
           id: undefined,
           name: student?.nickname || student?.user.name || "",
@@ -73,10 +76,13 @@ class FindDayAttendanceListUseCase {
         };
       });
 
-      return formatResponse;
+      return {
+        is_saved: false,
+        student_attendances,
+      };
     }
 
-    const formatResponse = findAttendances.map((attendance) => {
+    const student_attendances = findAttendances.map((attendance) => {
       return {
         id: attendance.id,
         name:
@@ -89,7 +95,10 @@ class FindDayAttendanceListUseCase {
       };
     });
 
-    return formatResponse;
+    return {
+      is_saved: true,
+      student_attendances,
+    };
   }
 }
 
