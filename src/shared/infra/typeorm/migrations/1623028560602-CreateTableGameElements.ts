@@ -41,7 +41,7 @@ export default class CreateTableGameElements1623028560602
           },
           {
             name: "application_rule",
-            type: "number",
+            type: "int",
             isNullable: true,
           },
           {
