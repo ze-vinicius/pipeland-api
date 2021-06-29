@@ -26,10 +26,7 @@ jobs:
       - name: Build
         run: yarn build
         
-      - name: Run migrations
-        run: yarn typeorm migration:run
-        
-      - name: copy file via ssh password
+      - name: Copy files via ssh
         uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.SSH_HOST }}
@@ -38,3 +35,20 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           source: "., !node_modules"
           target: "~/app/pipeland-api"
+          
+      - name: Upadte API
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            cd ~/app/pipeland-api
+            yarn 
+            ./node_modules/.bin/typeorm migration:run
+            pm2 restart pipeland_api
+            
+        
+        
+        
