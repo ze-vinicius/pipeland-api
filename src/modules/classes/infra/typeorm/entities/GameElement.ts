@@ -25,6 +25,12 @@ class GameElement {
   @Column("int")
   value: number;
 
+  @Column("int")
+  application_rule: number;
+
+  @Column()
+  application: string;
+
   @Column()
   type: "REWARD" | "PENALTY";
 
