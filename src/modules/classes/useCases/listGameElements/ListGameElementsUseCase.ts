@@ -22,16 +22,16 @@ class ListGameElementsUseCase {
   ) {}
 
   async execute(): Promise<IResponse> {
-    const baseURL = process.env.BASE_URL || "";
-
     const gameElements = await this.gameElementsRepository.findAll();
 
     const formatGameElements = gameElements.map((game_element) => ({
       id: game_element.id,
       name: game_element.name,
+      application: game_element.application,
+      application_rule: game_element.application_rule,
       description: game_element.description,
       value: game_element.value,
-      imageUrl: `${baseURL}/files/game-assets/icons/${game_element.image}`,
+      imageUrl: game_element.imageUrl,
       type: game_element.type,
     }));
 

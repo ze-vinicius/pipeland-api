@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 
 import { AppError } from "@shared/errors/AppError";
+import { RESPONSE_ERRORS } from "@shared/utils";
 
 type PermittedRole = string;
 
@@ -11,7 +12,7 @@ function ensureAuthorizated(...permittedRoles: PermittedRole[]) {
     if (user && permittedRoles.includes(user.role)) {
       next();
     } else {
-      throw new AppError("Usuário não autorizado", 403);
+      throw new AppError(RESPONSE_ERRORS.NOT_AUTHORIZED, 403);
     }
   };
 }

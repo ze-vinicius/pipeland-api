@@ -32,7 +32,7 @@ class CreateClassUseCase {
     const teacher = await this.usersRepository.findById(teacher_id);
 
     if (!teacher) {
-      throw new AppError("User unauthorized");
+      throw new AppError("Você não está autorizado para fazer isso", 403);
     }
 
     const createdClass = await this.classesRepository.create({

@@ -49,7 +49,7 @@ class FindDayAttendanceListUseCase {
     }
 
     if (findClass.teacher_id !== logged_user_id) {
-      throw new AppError("Você não tem autorização para fazer isso", 401);
+      throw new AppError("Você não está autorizado para fazer isso", 403);
     }
 
     const findAttendances = await this.attendancesRepository.findAllByClassIdAndDate(

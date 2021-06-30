@@ -33,7 +33,7 @@ class ListUserClassesUseCase {
     const findUser = await this.usersRepository.findById(user_id);
 
     if (!findUser) {
-      throw new AppError("User does not exists");
+      throw new AppError("Usuário não encontrado");
     }
 
     if (findUser.role === "STUDENT") {

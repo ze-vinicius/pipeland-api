@@ -37,14 +37,9 @@ class ListClassTasksUseCase {
 
     const formatTasks = findTasks.map(
       (task): ITaskResume => {
-        let task_value = 0;
+        const task_value = utils.getTaskValue(task.task_elements);
 
         const formatedTaskElements = task.task_elements.map((task_element) => {
-          task_value +=
-            task_element.game_element.type === "REWARD"
-              ? task_element.quantity * task_element.game_element.value
-              : 0;
-
           return {
             id: task_element.id,
             name: task_element.game_element.name,

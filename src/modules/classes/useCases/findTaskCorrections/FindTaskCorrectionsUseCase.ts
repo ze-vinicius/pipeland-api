@@ -53,17 +53,17 @@ class FindTaskCorrectionsUseCase {
     const findTask = await this.tasksRepository.findById(task_id);
 
     if (!findTask) {
-      throw new AppError("Tarefa não encontrada!");
+      throw new AppError("Tarefa não encontrada", 404);
     }
 
     const findClass = await this.classesRepository.findById(findTask.class_id);
 
     if (!findClass) {
-      throw new AppError("Turma não encontrada");
+      throw new AppError("Turma não encontrada", 404);
     }
 
     if (findClass.teacher_id !== user_id) {
-      throw new AppError("Você não tem autorização para fazer isso");
+      throw new AppError("Você não tem autorização para fazer isso", 403);
     }
 
     const findStudents = await this.studentsRepository.findAllByClassId(

@@ -20,7 +20,7 @@ class GetSessionInfoUseCase {
     const user = await this.usersRepository.findById(user_id);
 
     if (!user) {
-      throw new AppError("User is not authenticated", 401);
+      throw new AppError("Usuário não está autenticado", 401);
     }
 
     return user;

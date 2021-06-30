@@ -62,22 +62,24 @@ class FindTaskDetailsUseCase {
     const findTask = await this.tasksRepository.findById(id);
 
     if (!findTask) {
-      throw new AppError("Tarefa não encontrada");
+      throw new AppError("Tarefa não encontrada", 404);
     }
 
     const findUser = await this.usersRepository.findById(user_id);
 
     if (!findUser) {
-      throw new AppError("Usuário não autenticado", 401);
+      throw new AppError("Usuário não está autenticado", 401);
     }
 
-    let task_value = 0;
+    // let task_value = 0;
+
+    const task_value = utils.getTaskValue(findTask.task_elements);
 
     const formatedTaskElements = findTask.task_elements.map((task_element) => {
-      task_value +=
-        task_element.game_element.type === "REWARD"
-          ? task_element.quantity * task_element.game_element.value
-          : 0;
+      // task_value +=
+      //   task_element.game_element.type === "REWARD"
+      //     ? task_element.quantity * task_element.game_element.value
+      //     : 0;
 
       return {
         id: task_element.id,
@@ -96,7 +98,7 @@ class FindTaskDetailsUseCase {
       });
 
       if (!findStudent) {
-        throw new AppError("Você não tem autorização para isso!");
+        throw new AppError("Você não tem autorização para isso!", 403);
       }
 
       findTaskCorrection = await this.tasksCorrectionsRepository.findByTaskIdAndStudentId(

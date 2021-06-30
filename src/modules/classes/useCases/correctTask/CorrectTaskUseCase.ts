@@ -42,26 +42,26 @@ class CorrectTaskUseCase {
     const findTask = await this.tasksRepository.findById(task_id);
 
     if (!findTask) {
-      throw new AppError("Tarefa não encontrada!");
+      throw new AppError("Tarefa não encontrada!", 404);
     }
 
     let computedCoins = coins;
 
     let taskValue = 0;
 
-    const coinsAccuracy = (coins / taskValue) * 100;
-
     let piranhaPlantId = "";
     let pipeId = "";
     let yoshiId = "";
     let bombId = "";
     let shellId = "";
+    let mushroomUpId = "";
 
     const appliedElements: string[] = [];
 
     findTask.task_elements.forEach((task_element) => {
       taskValue +=
-        task_element.game_element.type === "REWARD"
+        task_element.game_element.type === "REWARD" &&
+        task_element.game_element.application === "FIXED_VALUE"
           ? task_element.quantity * task_element.game_element.value
           : 0;
 
@@ -71,6 +71,10 @@ class CorrectTaskUseCase {
 
       if (task_element.game_element.name === "pipe") {
         pipeId = task_element.game_element_id;
+      }
+
+      if (task_element.game_element.name === "mushroom up") {
+        mushroomUpId = task_element.game_element_id;
       }
 
       if (task_element.game_element.name === "yoshi") {
@@ -86,6 +90,14 @@ class CorrectTaskUseCase {
       }
     });
 
+    if (coins > taskValue) {
+      throw new AppError(
+        "Os pontos atribuidos ao estudante não podem ser maior que o valor da tarefa."
+      );
+    }
+
+    const coinsAccuracy = (coins / taskValue) * 100;
+
     if (!!piranhaPlantId && !delivered_date && computedCoins === 0) {
       computedCoins -= taskValue * 0.5;
       appliedElements.push(piranhaPlantId);
@@ -94,6 +106,10 @@ class CorrectTaskUseCase {
     if (!!yoshiId && coinsAccuracy >= 80) {
       computedCoins -= taskValue * 0.5;
       appliedElements.push(yoshiId);
+    }
+
+    if (!!mushroomUpId && coinsAccuracy >= 80) {
+      appliedElements.push(mushroomUpId);
     }
 
     if (

@@ -39,7 +39,7 @@ class JoinClassUseCase {
     );
 
     if (!findClassInviteToken) {
-      throw new AppError("This token was not found", 404);
+      throw new AppError("Token não encontrado", 404);
     }
 
     const findClass = await this.classesRepository.findById(
@@ -47,11 +47,11 @@ class JoinClassUseCase {
     );
 
     if (!findClass) {
-      throw new AppError("Class was not found");
+      throw new AppError("Turma não encontrada", 404);
     }
 
     if (!findClass.active) {
-      throw new AppError("This class is closed");
+      throw new AppError("Essa turma não está mais ativa");
     }
 
     const findStudent = await this.studentsRepository.findByUserIdAndClassId({
@@ -60,7 +60,7 @@ class JoinClassUseCase {
     });
 
     if (findStudent) {
-      throw new AppError("You are already a student in this class");
+      throw new AppError("Você já está vinculado à essa turma");
     }
 
     await this.studentsRepository.create({

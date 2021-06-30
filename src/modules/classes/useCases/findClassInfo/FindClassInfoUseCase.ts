@@ -55,7 +55,7 @@ class FindClassInfoUseCase {
     const findUser = await this.usersRepository.findById(user_id);
 
     if (!findUser) {
-      throw new AppError("User does not exists");
+      throw new AppError("Usuário não encontrado", 404);
     }
 
     const formatClass: IResponse = {} as IResponse;
@@ -77,7 +77,7 @@ class FindClassInfoUseCase {
       });
 
       if (!findStudent) {
-        throw new AppError("Class was not found");
+        throw new AppError("Turma não encontrada", 404);
       }
 
       const findStudentAttendancesCount = await this.attendancesRepository.findStudentAttendancesCountByStudentIdAndClassId(
@@ -94,6 +94,21 @@ class FindClassInfoUseCase {
       const studentCoinsQty = studentTasksCorrections.reduce((acc, curr) => {
         return acc + curr.computed_coins;
       }, 0);
+
+      const current_mushroom_ups_qty = studentTasksCorrections.reduce(
+        (acc, curr) => {
+          const findMushroom = curr.task_correction_elements.find(
+            (element) => element.game_element.name === "mushroom up"
+          );
+
+          if (findMushroom) {
+            return acc + 1;
+          }
+
+          return acc;
+        },
+        0
+      );
 
       const attendances_count = findStudentAttendancesCount.length
         ? Number(findStudentAttendancesCount[0].attendance_count)
@@ -120,18 +135,18 @@ class FindClassInfoUseCase {
           current_coins_qty,
           current_avatar,
           attendances_count,
-          current_mushroom_ups_qty: 0,
+          current_mushroom_ups_qty,
         },
       });
     } else if (findUser.role === "TEACHER") {
       const findClass = await this.classesRepository.findById(class_id);
 
       if (!findClass) {
-        throw new AppError("Class was not found");
+        throw new AppError("Turma não encontrada", 404);
       }
 
       if (findClass.teacher_id !== user_id) {
-        throw new AppError("Class was not found");
+        throw new AppError("Turma não encontrada", 404);
       }
       Object.assign(formatClass, {
         id: findClass.id,

@@ -31,11 +31,11 @@ class AddStudentsToClassUseCase {
     const findClass = await this.classesRepository.findById(class_id);
 
     if (!findClass) {
-      throw new AppError("A class with this teacher was not found");
+      throw new AppError("Você não está autorizado para fazer isso", 403);
     }
 
     if (findClass.teacher_id !== teacher_id) {
-      throw new AppError("You are not authorized", 501);
+      throw new AppError("Você não está autorizado para fazer isso", 403);
     }
 
     const formatStudents = students.map((student) => ({

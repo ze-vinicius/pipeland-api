@@ -48,6 +48,10 @@ class TasksCorrectionsRepository implements ITasksCorrectionsRepository {
   async finAllByStudentId(student_id: string): Promise<TaskCorrection[]> {
     return this.ormRepository.find({
       where: { student_id },
+      relations: [
+        "task_correction_elements",
+        "task_correction_elements.game_element",
+      ],
     });
   }
 

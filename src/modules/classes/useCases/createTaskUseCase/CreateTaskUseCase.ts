@@ -57,7 +57,7 @@ class CreateTaskUseCase {
     const findClass = await this.classesRepository.findById(class_id);
 
     if (!findClass) {
-      throw new AppError("Class was not found");
+      throw new AppError("Turma não encontrada", 404);
     }
 
     const formatedDeliveryDate = parseISO(delivery_date);
@@ -89,7 +89,11 @@ class CreateTaskUseCase {
       );
 
       task_value +=
-        findElement && findElement.type === "REWARD" ? findElement.value : 0;
+        findElement &&
+        findElement.type === "REWARD" &&
+        findElement.application === "FIXED_VALUE"
+          ? findElement.value
+          : 0;
 
       return {
         id: taskElement.id,

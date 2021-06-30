@@ -17,7 +17,7 @@ async function ensureAuthenticated(
   const authHeader = request.headers.authorization;
 
   if (!authHeader) {
-    throw new AppError("Token missing", 401);
+    throw new AppError("Token não encontrado", 401);
   }
 
   const [, token] = authHeader.split(" ");
@@ -30,7 +30,7 @@ async function ensureAuthenticated(
     const user = await usersRepository.findById(user_id);
 
     if (!user) {
-      throw new AppError("User does not exists", 401);
+      throw new AppError("Usuário não encontrado", 401);
     }
 
     request.user = {
@@ -40,7 +40,7 @@ async function ensureAuthenticated(
 
     next();
   } catch {
-    throw new AppError("Invalid jwt token", 401);
+    throw new AppError("Token inválido", 401);
   }
 }
 

@@ -29,13 +29,13 @@ class CreateSessionUseCase {
     const user = await this.usersRepository.findByEmail(email);
 
     if (!user) {
-      throw new AppError("Email or password incorrect");
+      throw new AppError("E-mail ou senha incorretos");
     }
 
     const passwordMatch = await compare(password, user.password);
 
     if (!passwordMatch) {
-      throw new AppError("Email or password incorrect");
+      throw new AppError("E-mail ou senha incorretos");
     }
 
     const token = sign({}, authConfig.secretKey, {
