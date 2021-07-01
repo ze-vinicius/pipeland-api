@@ -1,3 +1,4 @@
+import { isAfter } from "date-fns";
 import { inject, injectable } from "tsyringe";
 
 import { ITasksRepository } from "@modules/classes/repositories/ITasksRepository";
@@ -35,30 +36,34 @@ class ListClassTasksUseCase {
   public async execute({ class_id }: IRequest): Promise<IResponse> {
     const findTasks = await this.tasksRepository.findAllByClassId(class_id);
 
-    const formatTasks = findTasks.map(
-      (task): ITaskResume => {
-        const task_value = utils.getTaskValue(task.task_elements);
+    const formatTasks = findTasks
+      .map(
+        (task): ITaskResume => {
+          const task_value = utils.getTaskValue(task.task_elements);
 
-        const formatedTaskElements = task.task_elements.map((task_element) => {
+          const formatedTaskElements = task.task_elements.map(
+            (task_element) => {
+              return {
+                id: task_element.id,
+                name: task_element.game_element.name,
+                imageUrl: task_element.game_element.imageUrl,
+                quantity: task_element.quantity,
+              };
+            }
+          );
+
           return {
-            id: task_element.id,
-            name: task_element.game_element.name,
-            imageUrl: task_element.game_element.imageUrl,
-            quantity: task_element.quantity,
+            id: task.id,
+            title: task.title,
+            status: utils.getTaskStatus(task.delivery_date),
+            delivery_date: task.delivery_date,
+            create_date: task.created_at,
+            task_value,
+            task_elements: formatedTaskElements,
           };
-        });
-
-        return {
-          id: task.id,
-          title: task.title,
-          status: utils.getTaskStatus(task.delivery_date),
-          delivery_date: task.delivery_date,
-          create_date: task.created_at,
-          task_value,
-          task_elements: formatedTaskElements,
-        };
-      }
-    );
+        }
+      )
+      .sort((a, b) => b.create_date.getTime() - a.create_date.getTime());
 
     return formatTasks;
   }
