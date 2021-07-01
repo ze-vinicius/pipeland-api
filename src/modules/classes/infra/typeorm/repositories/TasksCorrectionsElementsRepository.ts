@@ -32,10 +32,6 @@ class TasksCorrectionsElementsRepository
 
     return newTasksCorrections;
   }
-
-  findAllByTaskId(task_id: string): Promise<TaskCorrectionElement[]> {
-    throw new Error("Method not implemented.");
-  }
 }
 
 export { TasksCorrectionsElementsRepository };

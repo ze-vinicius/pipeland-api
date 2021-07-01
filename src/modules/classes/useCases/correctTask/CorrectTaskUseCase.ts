@@ -14,6 +14,7 @@ interface IRequest {
   comment: string;
   delivered_date: string;
   got_shell: boolean;
+  autobombs_qty?: number;
 }
 
 type IResponse = TaskCorrection;
@@ -23,8 +24,6 @@ class CorrectTaskUseCase {
   constructor(
     @inject("TasksRepository")
     private tasksRepository: ITasksRepository,
-    // @inject("StudentsRepository")
-    // private studentsRepository: IStudentsRepository,
     @inject("TasksCorrectionsRepository")
     private tasksCorrectionsRepository: ITasksCorrectionsRepository,
     @inject("TasksCorrectionsElementsRepository")
@@ -38,6 +37,7 @@ class CorrectTaskUseCase {
     comment,
     delivered_date,
     got_shell,
+    autobombs_qty = 0,
   }: IRequest): Promise<IResponse> {
     const findTask = await this.tasksRepository.findById(task_id);
 
@@ -55,6 +55,7 @@ class CorrectTaskUseCase {
     let bombId = "";
     let shellId = "";
     let mushroomUpId = "";
+    let autoBombId = "";
 
     const appliedElements: string[] = [];
 
@@ -88,6 +89,10 @@ class CorrectTaskUseCase {
       if (task_element.game_element.name === "shell") {
         shellId = task_element.game_element_id;
       }
+
+      if (task_element.game_element.name === "auto bomb") {
+        autoBombId = task_element.game_element_id;
+      }
     });
 
     if (coins > taskValue) {
@@ -98,9 +103,14 @@ class CorrectTaskUseCase {
 
     const coinsAccuracy = (coins / taskValue) * 100;
 
-    if (!!piranhaPlantId && !delivered_date && computedCoins === 0) {
+    if (!!piranhaPlantId && !delivered_date && coins === 0) {
       computedCoins -= taskValue * 0.5;
       appliedElements.push(piranhaPlantId);
+    }
+
+    if (autoBombId) {
+      computedCoins -= autobombs_qty * 2;
+      appliedElements.push(autoBombId);
     }
 
     if (!!yoshiId && coinsAccuracy >= 80) {
@@ -125,7 +135,7 @@ class CorrectTaskUseCase {
       appliedElements.push(shellId);
     }
 
-    if (!!bombId && coinsAccuracy <= 30) {
+    if (!!bombId && coinsAccuracy < 30) {
       computedCoins -= taskValue * 0.3;
       appliedElements.push(bombId);
     }

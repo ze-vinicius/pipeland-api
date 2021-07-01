@@ -31,7 +31,7 @@ type IResponse = {
   create_date: Date;
   teacher_name: string;
   coins_max: number;
-  invite_token: string;
+  invite_token?: string;
   student_info?: IStudentInfo | undefined;
 };
 @injectable()
@@ -64,7 +64,7 @@ class FindClassInfoUseCase {
       class_id
     );
 
-    if (!invite_token) {
+    if (!invite_token && class_id) {
       invite_token = await this.classesInviteTokensRepository.generate(
         class_id
       );
@@ -92,7 +92,7 @@ class FindClassInfoUseCase {
       );
 
       const studentCoinsQty = studentTasksCorrections.reduce((acc, curr) => {
-        return acc + curr.computed_coins;
+        return acc + Number(curr.computed_coins);
       }, 0);
 
       const current_mushroom_ups_qty = studentTasksCorrections.reduce(
@@ -125,7 +125,6 @@ class FindClassInfoUseCase {
         create_date: findStudent.class.created_at,
         teacher_name: findStudent.class.teacher.name,
         coins_max: 210,
-        invite_token: invite_token.token,
         student_info: {
           student_id: findStudent.id,
           student_name: findStudent.user.name,
@@ -155,7 +154,7 @@ class FindClassInfoUseCase {
         create_date: findClass.created_at,
         teacher_name: findClass.teacher.name,
         coins_max: 210,
-        invite_token: invite_token.token,
+        invite_token: invite_token && invite_token.token,
       });
     }
 

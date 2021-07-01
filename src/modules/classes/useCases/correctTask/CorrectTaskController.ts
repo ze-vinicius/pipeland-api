@@ -11,6 +11,7 @@ class CorrectTaskController {
       comment,
       delivered_date,
       got_shell,
+      autobombs_qty,
     } = request.body;
     const task_id = request.params.id;
 
@@ -23,6 +24,7 @@ class CorrectTaskController {
       task_id,
       delivered_date,
       got_shell,
+      autobombs_qty,
     });
 
     return response.status(201).json(newCorrectedTask);

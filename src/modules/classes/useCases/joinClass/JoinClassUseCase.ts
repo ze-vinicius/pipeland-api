@@ -39,7 +39,7 @@ class JoinClassUseCase {
     );
 
     if (!findClassInviteToken) {
-      throw new AppError("Token não encontrado", 404);
+      throw new AppError("Esse token é inválido ou não existe", 404);
     }
 
     const findClass = await this.classesRepository.findById(

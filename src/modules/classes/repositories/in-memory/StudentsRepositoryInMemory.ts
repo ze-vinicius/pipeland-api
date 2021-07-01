@@ -2,9 +2,15 @@ import { ICreateStudentDTO } from "@modules/classes/dtos/ICreateStudentDTO";
 import { IFindStudentsByIdAndClassIdDTO } from "@modules/classes/dtos/IFindStudentsByIdAndClassIdDTO";
 import { Student } from "@modules/classes/infra/typeorm/entities/Student";
 
-import { IStudentsRepository } from "../IStudentsRepository";
+import { IStudentRanking, IStudentsRepository } from "../IStudentsRepository";
 
 class StudentsRepositoryInMemory implements IStudentsRepository {
+  findClassRanking(class_id: string): Promise<IStudentRanking[]> {
+    throw new Error("Method not implemented.");
+  }
+  findAllByClassId(class_id: string): Promise<Student[]> {
+    throw new Error("Method not implemented.");
+  }
   private students: Student[] = [];
 
   async create(student: ICreateStudentDTO): Promise<Student> {

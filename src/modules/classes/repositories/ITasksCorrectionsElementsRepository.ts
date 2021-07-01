@@ -12,8 +12,6 @@ interface ITasksCorrectionsElementsRepository {
       game_element_id: string;
     }>
   ): Promise<TaskCorrectionElement[]>;
-
-  findAllByTaskId(task_id: string): Promise<TaskCorrectionElement[]>;
 }
 
 export { ITasksCorrectionsElementsRepository };
