@@ -7,7 +7,7 @@
     "build": "babel src --extensions \".js,.ts\" --out-dir dist --copy-files",
     "dev:server": "ts-node-dev -r tsconfig-paths/register --transpile-only --ignore-watch node_modules ./src/shared/infra/http/server.ts",
     "typeorm": "ts-node-dev --poll -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
-    "seed:generate": "ts-node-dev --poll -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:generate -c seed -n",
+    "seed:generate": "ts-node-dev --poll -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:create -c seed -n",
     "seed:run": "ts-node-dev --poll -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:run -c seed",
     "seed:revert": "ts-node-dev --poll -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:revert -c seed",
     "test": "cross-env NODE_ENV=test jest",

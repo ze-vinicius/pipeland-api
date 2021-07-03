@@ -109,7 +109,7 @@ class CorrectTaskUseCase {
     }
 
     if (autoBombId) {
-      computedCoins -= autobombs_qty * 2;
+      computedCoins -= autobombs_qty * 1;
       appliedElements.push(autoBombId);
     }
 
