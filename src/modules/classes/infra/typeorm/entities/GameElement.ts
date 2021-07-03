@@ -50,7 +50,7 @@ class GameElement {
 
   @AfterLoad()
   setComputed(): void {
-    this.imageUrl = `${process.env.BASE_URL}/files/game-assets/icons/${this.image}`;
+    this.imageUrl = `${process.env.BASE_URL}/assets/${this.image}`;
   }
 }
 

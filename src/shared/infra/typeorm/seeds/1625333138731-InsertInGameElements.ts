@@ -10,7 +10,7 @@ export class InsertInGameElements1625333138731 implements MigrationInterface {
       .values([
         {
           id: v4(),
-          name: "attendance",
+          name: "attendance anchor",
           description:
             "Representa a sua presença em sala de aula, vale 1 coin.",
           image: "attendance-anchor.png",
@@ -46,7 +46,14 @@ export class InsertInGameElements1625333138731 implements MigrationInterface {
       .createQueryBuilder()
       .delete()
       .from("game_elements")
-      .where("name = :name", { name: "attendance" })
+      .where("name = :name", { name: "attendance anchor" })
+      .execute();
+
+    await queryRunner.manager
+      .createQueryBuilder()
+      .delete()
+      .from("game_elements")
+      .where("name = :name", { name: "bullet" })
       .execute();
 
     await queryRunner.manager
