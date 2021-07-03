@@ -114,7 +114,7 @@ class FindTaskDetailsUseCase {
       title: findTask.title,
       description: findTask.description,
       delivery_date: findTask.delivery_date,
-      create_date: findTask.created_at,
+      create_date: findTask.start_date || findTask.created_at,
       status: utils.getTaskStatus(findTask.delivery_date),
       task_value,
       task_elements: formatedTaskElements,

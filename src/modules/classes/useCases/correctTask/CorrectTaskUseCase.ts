@@ -143,6 +143,7 @@ class CorrectTaskUseCase {
     const newTaskCorrection = await this.tasksCorrectionsRepository.create({
       earned_coins: coins,
       computed_coins: computedCoins,
+      delivered_date,
       task_id,
       student_id,
       comment,

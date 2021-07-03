@@ -27,6 +27,9 @@ class Task {
   @Column("timestamp")
   delivery_date: Date;
 
+  @Column("timestamp")
+  start_date: Date;
+
   @Column()
   class_id: string;
 

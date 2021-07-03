@@ -12,6 +12,7 @@ interface IRequest {
   title: string;
   description: string;
   delivery_date: string;
+  start_date?: string;
   class_id: string;
   task_elements: Array<{
     game_element_id: string;
@@ -24,6 +25,7 @@ interface IResponse {
   title: string;
   status: string;
   delivery_date: Date;
+  start_date?: Date;
   create_date: Date;
   task_value: number;
   task_elements: Array<{
@@ -50,6 +52,7 @@ class CreateTaskUseCase {
   public async execute({
     class_id,
     delivery_date,
+    start_date,
     description,
     title,
     task_elements,
@@ -61,9 +64,11 @@ class CreateTaskUseCase {
     }
 
     const formatedDeliveryDate = parseISO(delivery_date);
+    const formatedStartDate = start_date ? parseISO(start_date) : undefined;
 
     const createdTask = await this.tasksRepository.create({
       delivery_date: formatedDeliveryDate,
+      start_date: formatedStartDate,
       description,
       title,
       class_id,
@@ -105,7 +110,7 @@ class CreateTaskUseCase {
 
     return {
       ...createdTask,
-      create_date: createdTask.created_at,
+      create_date: createdTask.start_date || createdTask.created_at,
       task_value,
       status: utils.getTaskStatus(createdTask.delivery_date),
       task_elements: formatedTaskElements,

@@ -33,6 +33,9 @@ class TasksRepository implements ITasksRepository {
     const findTasks = await this.ormRepository.find({
       where: { class_id },
       relations: ["class", "task_elements", "task_elements.game_element"],
+      order: {
+        delivery_date: "DESC",
+      },
     });
 
     return findTasks;
