@@ -108,7 +108,7 @@ class CorrectTaskUseCase {
       appliedElements.push(piranhaPlantId);
     }
 
-    if (autoBombId) {
+    if (autoBombId && autobombs_qty > 0) {
       computedCoins -= autobombs_qty * 1;
       appliedElements.push(autoBombId);
     }
