@@ -47,6 +47,7 @@ jobs:
             cd ~/app/pipeland-api
             yarn 
             ./node_modules/.bin/typeorm migration:run
+            ./node_modules/.bin/typeorm migration:run -c seed
             pm2 restart pipeland_api
             
         
