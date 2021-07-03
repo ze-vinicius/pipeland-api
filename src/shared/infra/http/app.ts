@@ -12,6 +12,6 @@ const app = express();
 
 app.use(express.json());
 
-app.use("/files", express.static(uploadConfig.directory));
+app.use("/assets", express.static(uploadConfig.directory));
 
 export { app };
