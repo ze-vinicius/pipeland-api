@@ -19,16 +19,10 @@ class Student {
   id: string;
 
   @Column()
-  nickname: string;
-
-  @Column()
   user_id: string;
 
   @Column()
   class_id: string;
-
-  @Column()
-  photo: string;
 
   @JoinColumn({ name: "user_id" })
   @ManyToOne(() => User)

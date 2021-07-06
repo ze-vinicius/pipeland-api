@@ -67,8 +67,8 @@ class FindDayAttendanceListUseCase {
       const student_attendances = findStudents.map((student) => {
         return {
           id: undefined,
-          name: student?.nickname || student?.user.name || "",
-          photo: student?.photo,
+          name: student?.user.nickname || student?.user.name || "",
+          photo: student?.user.photo,
           is_present: true,
           date: formatedDate,
           class_id: student.class_id,
@@ -86,8 +86,10 @@ class FindDayAttendanceListUseCase {
       return {
         id: attendance.id,
         name:
-          attendance.student?.nickname || attendance.student?.user.name || "",
-        photo: attendance.student?.photo,
+          attendance.student?.user.nickname ||
+          attendance.student?.user.name ||
+          "",
+        photo: attendance.student?.user.photo,
         is_present: attendance.is_present,
         date: attendance.date,
         class_id: attendance.class_id,

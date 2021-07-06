@@ -20,8 +20,6 @@ class StudentsRepositoryInMemory implements IStudentsRepository {
       class_id: student.class_id,
       class: student.class,
       user_id: student.user_id,
-      nickname: student.nickname,
-      photo: student.photo,
     });
 
     this.students.push(newStudent);
@@ -37,8 +35,6 @@ class StudentsRepositoryInMemory implements IStudentsRepository {
         class_id: student.class_id,
         class: student.class,
         user_id: student.user_id,
-        nickname: student.nickname,
-        photo: student.photo,
       });
 
       this.students.push(newStudent);

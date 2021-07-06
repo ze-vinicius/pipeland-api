@@ -13,6 +13,12 @@ export class User {
   id: string;
 
   @Column()
+  nickname: string;
+
+  @Column()
+  photo: string;
+
+  @Column()
   name: string;
 
   @Column()

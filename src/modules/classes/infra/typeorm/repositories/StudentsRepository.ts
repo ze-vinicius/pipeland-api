@@ -65,8 +65,8 @@ class StudentsRepository implements IStudentsRepository {
           s.id as student_id, 
           u."name", 
           u.id as user_id, 
-          s.nickname, 
-          s.photo, 
+          u.nickname, 
+          u.photo, 
           coalesce(sum(tc.computed_coins), 0) as current_coins_qty
         from students as s 
         left join tasks_corrections as tc 

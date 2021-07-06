@@ -17,8 +17,6 @@ interface IRequest {
 interface IStudentInfo {
   student_id: string;
   user_id: string;
-  photo?: string;
-  nickname?: string;
   current_coins_qty: number;
   current_avatar: string;
   attendances_count: number;
@@ -129,8 +127,6 @@ class FindClassInfoUseCase {
           student_id: findStudent.id,
           student_name: findStudent.user.name,
           user_id: findStudent.user_id,
-          photo: findStudent.photo,
-          nickname: findStudent.nickname,
           current_coins_qty,
           current_avatar,
           attendances_count,
