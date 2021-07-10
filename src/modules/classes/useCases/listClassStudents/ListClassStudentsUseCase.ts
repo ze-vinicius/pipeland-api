@@ -30,8 +30,6 @@ class ListClassStudentsUseCase {
       class_id
     );
 
-    console.log({ findStudents });
-
     const formatedStudents = findStudents.map((student) => {
       return StudentMap.toDTO(student);
     });
