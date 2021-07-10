@@ -14,7 +14,8 @@ interface IRequest {
 
 type IResponse = {
   is_saved: boolean;
-  student_attendances: Array<{
+  date: Date;
+  students_attendances: Array<{
     id: string | undefined;
     name: string;
     photo?: string | undefined;
@@ -64,7 +65,7 @@ class FindDayAttendanceListUseCase {
         class_id
       );
 
-      const student_attendances = findStudents.map((student) => {
+      const students_attendances = findStudents.map((student) => {
         return {
           id: undefined,
           name: student?.user.nickname || student?.user.name || "",
@@ -78,11 +79,12 @@ class FindDayAttendanceListUseCase {
 
       return {
         is_saved: false,
-        student_attendances,
+        date: formatedDate,
+        students_attendances,
       };
     }
 
-    const student_attendances = findAttendances.map((attendance) => {
+    const students_attendances = findAttendances.map((attendance) => {
       return {
         id: attendance.id,
         name:
@@ -99,7 +101,8 @@ class FindDayAttendanceListUseCase {
 
     return {
       is_saved: true,
-      student_attendances,
+      date: formatedDate,
+      students_attendances,
     };
   }
 }

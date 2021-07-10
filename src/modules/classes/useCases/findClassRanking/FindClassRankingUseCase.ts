@@ -5,6 +5,7 @@ import {
   IStudentRanking,
   IStudentsRepository,
 } from "@modules/classes/repositories/IStudentsRepository";
+import { utils } from "@shared/utils";
 
 interface IRequest {
   class_id: string;
@@ -48,6 +49,7 @@ class FindClassRankingUseCase {
       })
       .map((item, index) => ({
         ranking: index + 1,
+        photo_url: utils.mountImageUrl(item.photo),
         ...item,
       }));
 

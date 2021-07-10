@@ -1,4 +1,5 @@
 import { isAfter } from "date-fns";
+import fs from "fs";
 
 import { TaskElement } from "@modules/classes/infra/typeorm/entities/TaskElement";
 
@@ -37,5 +38,26 @@ export const utils = {
 
       return acc;
     }, 0);
+  },
+
+  deleteFile: async (filename: string): Promise<void> => {
+    try {
+      await fs.promises.stat(filename);
+    } catch (error) {
+      return;
+    }
+
+    fs.promises.unlink(filename);
+  },
+
+  mountImageUrl: (filename: string): string | undefined => {
+    switch (process.env.disk) {
+      case "local":
+        return `${process.env.BASE_URL}/avatar/${filename}`;
+      case "s3":
+        return `${process.env.AWS_BUCKET_URL}/avatar/${filename}`;
+      default:
+        return undefined;
+    }
   },
 };

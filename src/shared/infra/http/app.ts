@@ -12,6 +12,7 @@ const app = express();
 
 app.use(express.json());
 
-app.use("/assets", express.static(uploadConfig.directory));
+app.use("/assets", express.static(uploadConfig.directoryAssets));
+app.use("/avatar", express.static(`${uploadConfig.tmpFolder}/avatar`));
 
 export { app };

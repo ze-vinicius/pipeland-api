@@ -14,8 +14,6 @@ class CreateSessionController {
       password,
     });
 
-    user.password = "";
-
     return response.json({
       user,
       token,

@@ -3,9 +3,10 @@ import { sign } from "jsonwebtoken";
 import { inject, injectable } from "tsyringe";
 
 import authConfig from "@config/auth";
+import { IUserResponseDTO } from "@modules/accounts/dtos/IUserResponseDTO";
+import { UserMap } from "@modules/accounts/mapper/UserMap";
 import { AppError } from "@shared/errors/AppError";
 
-import { User } from "../../infra/typeorm/entities/User";
 import { IUsersRepository } from "../../repositories/IUsersRepository";
 
 interface IRequest {
@@ -14,7 +15,7 @@ interface IRequest {
 }
 
 interface IResponse {
-  user: User;
+  user: IUserResponseDTO;
   token: string;
 }
 
@@ -44,7 +45,7 @@ class CreateSessionUseCase {
     });
 
     return {
-      user,
+      user: UserMap.toDTO(user),
       token,
     };
   }

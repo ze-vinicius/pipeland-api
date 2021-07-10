@@ -1,10 +1,11 @@
 import { hash } from "bcryptjs";
 import { inject, injectable } from "tsyringe";
 
+import { IUserResponseDTO } from "@modules/accounts/dtos/IUserResponseDTO";
+import { UserMap } from "@modules/accounts/mapper/UserMap";
 import { AppError } from "@shared/errors/AppError";
 
 import { ICreateUserDTO } from "../../dtos/ICreateUserDTO";
-import { User } from "../../infra/typeorm/entities/User";
 import { IUsersRepository } from "../../repositories/IUsersRepository";
 
 @injectable()
@@ -19,7 +20,7 @@ class CreateUserUseCase {
     name,
     password,
     role,
-  }: ICreateUserDTO): Promise<User> {
+  }: ICreateUserDTO): Promise<IUserResponseDTO> {
     const userAlreadyExists = await this.usersRepository.findByEmail(email);
 
     if (userAlreadyExists) {
@@ -35,7 +36,7 @@ class CreateUserUseCase {
       role,
     });
 
-    return user;
+    return UserMap.toDTO(user);
   }
 }
 

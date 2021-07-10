@@ -13,8 +13,6 @@ class GetSessionInfoController {
       user_id,
     });
 
-    user.password = "";
-
     return response.json(user);
   }
 }

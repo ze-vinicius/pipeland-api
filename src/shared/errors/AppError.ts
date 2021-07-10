@@ -1,5 +1,7 @@
+import { RESPONSE_ERRORS } from "@shared/utils";
+
 export class AppError {
-  public readonly message: string;
+  public readonly message: string | typeof RESPONSE_ERRORS;
 
   public readonly statusCode: number;
 

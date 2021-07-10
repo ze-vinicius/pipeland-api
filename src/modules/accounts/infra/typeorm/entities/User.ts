@@ -1,3 +1,4 @@
+import { Expose } from "class-transformer";
 import {
   Column,
   CreateDateColumn,
@@ -7,16 +8,18 @@ import {
 } from "typeorm";
 import { v4 } from "uuid";
 
+import { utils } from "@shared/utils";
+
 @Entity("users")
 export class User {
   @PrimaryColumn()
   id: string;
 
   @Column()
-  nickname: string;
+  nickname?: string;
 
   @Column()
-  photo: string;
+  photo?: string;
 
   @Column()
   name: string;
@@ -40,5 +43,12 @@ export class User {
     if (!this.id) {
       this.id = v4();
     }
+  }
+
+  @Expose({ name: "photo_url" })
+  photo_url(): string | undefined {
+    if (!this.photo) return undefined;
+
+    return utils.mountImageUrl(this.photo);
   }
 }

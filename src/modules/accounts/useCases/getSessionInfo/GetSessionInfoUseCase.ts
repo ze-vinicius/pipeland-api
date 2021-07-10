@@ -1,8 +1,9 @@
 import { inject, injectable } from "tsyringe";
 
+import { IUserResponseDTO } from "@modules/accounts/dtos/IUserResponseDTO";
+import { UserMap } from "@modules/accounts/mapper/UserMap";
 import { AppError } from "@shared/errors/AppError";
 
-import { User } from "../../infra/typeorm/entities/User";
 import { IUsersRepository } from "../../repositories/IUsersRepository";
 
 interface IRequest {
@@ -16,14 +17,14 @@ class GetSessionInfoUseCase {
     private usersRepository: IUsersRepository
   ) {}
 
-  async execute({ user_id }: IRequest): Promise<User> {
+  async execute({ user_id }: IRequest): Promise<IUserResponseDTO> {
     const user = await this.usersRepository.findById(user_id);
 
     if (!user) {
       throw new AppError("Usuário não está autenticado", 401);
     }
 
-    return user;
+    return UserMap.toDTO(user);
   }
 }
 

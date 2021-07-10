@@ -7,6 +7,7 @@ import { FindClassInfoController } from "@modules/classes/useCases/findClassInfo
 import { FindClassRankingController } from "@modules/classes/useCases/findClassRanking/FindClassRankingController";
 import { FindDayAttendanceListController } from "@modules/classes/useCases/findDayAttendanceList/FindDayAttendanceListController";
 import { JoinClassController } from "@modules/classes/useCases/joinClass/JoinClassController";
+import { ListClassStudentsController } from "@modules/classes/useCases/listClassStudents/ListClassStudentsController";
 import { ListClassTasksController } from "@modules/classes/useCases/listClassTasks/ListClassTasksController";
 import { ListGameElementsController } from "@modules/classes/useCases/listGameElements/ListGameElementsController";
 import { ListUserClassesController } from "@modules/classes/useCases/listUserClasses/ListUserClassesController";
@@ -28,6 +29,7 @@ const joinClassController = new JoinClassController();
 const findClassRankingController = new FindClassRankingController();
 const updateDayAttendanceList = new UpdateDayAttendanceListController();
 const findDayAttendanceListController = new FindDayAttendanceListController();
+const listClassStudentsController = new ListClassStudentsController();
 
 // ROUTES
 classesRouter.post(
@@ -86,6 +88,13 @@ classesRouter.post(
   ensureAuthenticated,
   ensureAuthorizated("TEACHER"),
   addStudentsToClassController.handle
+);
+
+classesRouter.get(
+  "/:id/students",
+  ensureAuthenticated,
+  ensureAuthorizated("TEACHER", "STUDENT"),
+  listClassStudentsController.handle
 );
 
 classesRouter.post(

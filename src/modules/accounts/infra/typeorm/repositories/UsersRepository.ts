@@ -33,4 +33,8 @@ export class UsersRepository implements IUsersRepository {
 
     return user;
   }
+
+  async save(user: User): Promise<User> {
+    return this.ormRepository.save(user);
+  }
 }

@@ -143,6 +143,7 @@ class FindClassInfoUseCase {
       if (findClass.teacher_id !== user_id) {
         throw new AppError("Turma não encontrada", 404);
       }
+
       Object.assign(formatClass, {
         id: findClass.id,
         name: findClass.name,
