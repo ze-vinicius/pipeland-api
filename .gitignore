@@ -4,3 +4,4 @@ coverage
 dist
 ormconfig.json
 tmp/avatar/*
+!tmp/avatar/.gitkeep
