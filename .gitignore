@@ -3,3 +3,4 @@ coverage
 .env
 dist
 ormconfig.json
+tmp/avatar/*
