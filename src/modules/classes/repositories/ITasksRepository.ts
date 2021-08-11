@@ -4,6 +4,9 @@ import { Task } from "../infra/typeorm/entities/Task";
 interface ITasksRepository {
   create(data: ICreateTaskDTO): Promise<Task>;
 
+  save(data: Task): Promise<Task>;
+  delete(id: string): Promise<void>;
+
   findByClassIdAndTaskId({
     class_id,
     task_id,

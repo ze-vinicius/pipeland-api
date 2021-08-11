@@ -14,6 +14,8 @@ export enum RESPONSE_ERRORS {
   INVALID_CREDENTIALS = "E-mail ou senha incorretos",
 }
 
+export type GameElementType = "REWARD" | "PENALTY";
+
 export const utils = {
   getTaskStatus(delivery_date: Date): "CLOSED" | "OPEN" {
     return isAfter(new Date(), delivery_date) ? "CLOSED" : "OPEN";

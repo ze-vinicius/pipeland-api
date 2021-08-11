@@ -1,7 +1,7 @@
 import { inject, injectable } from "tsyringe";
 
 import { ITasksRepository } from "@modules/classes/repositories/ITasksRepository";
-import { utils } from "@shared/utils";
+import { GameElementType, utils } from "@shared/utils";
 
 interface IRequest {
   class_id: string;
@@ -19,6 +19,8 @@ interface ITaskResume {
     name: string;
     imageUrl: string;
     quantity: number;
+    game_element_id?: string;
+    type?: GameElementType;
   }>;
 }
 
@@ -44,6 +46,8 @@ class ListClassTasksUseCase {
             name: task_element.game_element.name,
             imageUrl: task_element.game_element.imageUrl,
             quantity: task_element.quantity,
+            type: task_element.game_element.type,
+            game_element_id: task_element.game_element_id,
           };
         });
 

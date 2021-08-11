@@ -66,6 +66,10 @@ class TasksCorrectionsRepository implements ITasksCorrectionsRepository {
       ],
     });
   }
+
+  async deleteAllByTaskId(task_id: string): Promise<void> {
+    this.ormRepository.delete({ task_id });
+  }
 }
 
 export { TasksCorrectionsRepository };

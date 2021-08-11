@@ -12,6 +12,10 @@ class TasksElementsRepository implements ITasksElementsRepository {
     this.ormRepository = getRepository(TaskElement);
   }
 
+  async bulkDelete(data: { id: string }[]): Promise<void> {
+    await this.ormRepository.delete(data.map((d) => d.id));
+  }
+
   async create(data: ICreateTaskElementDTO): Promise<TaskElement> {
     const newTaskElement = this.ormRepository.create(data);
 
@@ -31,6 +35,7 @@ class TasksElementsRepository implements ITasksElementsRepository {
   async findAllByTaskId(task_id: string): Promise<TaskElement[]> {
     const findTasksElements = await this.ormRepository.find({
       where: { task_id },
+      relations: ["game_element"],
     });
 
     return findTasksElements;

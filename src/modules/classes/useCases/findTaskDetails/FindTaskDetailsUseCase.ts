@@ -6,7 +6,7 @@ import { IStudentsRepository } from "@modules/classes/repositories/IStudentsRepo
 import { ITasksCorrectionsRepository } from "@modules/classes/repositories/ITasksCorrectionsRepository";
 import { ITasksRepository } from "@modules/classes/repositories/ITasksRepository";
 import { AppError } from "@shared/errors/AppError";
-import { utils } from "@shared/utils";
+import { GameElementType, utils } from "@shared/utils";
 // import { AppError } from "@shared/errors/AppError";
 
 interface IRequest {
@@ -18,7 +18,7 @@ interface ITaskCorrectionElement {
   id: string;
   name: string;
   imageUrl: string;
-  type: "REWARD" | "PENALTY";
+  type: GameElementType;
 }
 interface ITaskCorrection {
   id: string;
@@ -42,6 +42,7 @@ type IResponse = {
     id: string;
     name: string;
     quantity: number;
+    type: GameElementType;
   }[];
 };
 
@@ -86,6 +87,8 @@ class FindTaskDetailsUseCase {
         name: task_element.game_element.name,
         quantity: task_element.quantity,
         imageUrl: task_element.game_element.imageUrl,
+        type: task_element.game_element.type,
+        game_element_id: task_element.game_element_id,
       };
     });
 

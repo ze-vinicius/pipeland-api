@@ -12,6 +12,16 @@ class TasksRepository implements ITasksRepository {
     this.ormRepository = getRepository(Task);
   }
 
+  async delete(id: string): Promise<void> {
+    await this.ormRepository.delete(id);
+  }
+
+  async save(data: Task): Promise<Task> {
+    await this.ormRepository.save(data);
+
+    return data;
+  }
+
   async create(data: ICreateTaskDTO): Promise<Task> {
     const newTask = this.ormRepository.create(data);
 

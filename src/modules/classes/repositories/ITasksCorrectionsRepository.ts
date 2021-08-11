@@ -18,6 +18,8 @@ interface ITasksCorrectionsRepository {
   findAllByTaskId(data: { task_id: string }): Promise<TaskCorrection[]>;
 
   finAllByStudentId(student_id: string): Promise<TaskCorrection[]>;
+
+  deleteAllByTaskId(task_id: string): Promise<void>;
 }
 
 export { ITasksCorrectionsRepository };

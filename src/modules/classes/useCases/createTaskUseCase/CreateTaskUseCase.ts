@@ -6,7 +6,7 @@ import { IGameElementsRepository } from "@modules/classes/repositories/IGameElem
 import { ITasksElementsRepository } from "@modules/classes/repositories/ITasksElementsRepository";
 import { ITasksRepository } from "@modules/classes/repositories/ITasksRepository";
 import { AppError } from "@shared/errors/AppError";
-import { utils } from "@shared/utils";
+import { GameElementType, utils } from "@shared/utils";
 
 interface IRequest {
   title: string;
@@ -33,6 +33,8 @@ interface IResponse {
     quantity: number;
     name: string;
     imageUrl: string;
+    game_element_id?: string;
+    type?: GameElementType;
   }>;
 }
 
@@ -105,6 +107,8 @@ class CreateTaskUseCase {
         quantity: taskElement.quantity,
         name: findElement?.name || "",
         imageUrl: findElement?.imageUrl || "",
+        type: findElement?.type,
+        game_element_id: findElement?.id,
       };
     });
 
