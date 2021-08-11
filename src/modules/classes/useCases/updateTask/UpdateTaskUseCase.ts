@@ -59,8 +59,6 @@ class UpdateTaskUseCase {
   async execute({ logged_user_id, task }: IRequest): Promise<IResponse> {
     const findTask = await this.tasksRepository.findById(task.id);
 
-    console.log(task.description);
-
     if (!findTask) {
       throw new AppError("Tarefa não encontrada", 404);
     }
