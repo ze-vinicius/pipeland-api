@@ -114,7 +114,7 @@ class CorrectTaskUseCase {
     }
 
     if (!!yoshiId && coinsAccuracy >= 80) {
-      computedCoins -= taskValue * 0.5;
+      computedCoins += taskValue * 0.1;
       appliedElements.push(yoshiId);
     }
 
